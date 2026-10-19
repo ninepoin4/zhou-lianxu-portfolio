@@ -7,9 +7,9 @@
 胶片 HUD、时间码、片目索引和可播放的悬浮预览。深色只保留在影像窗、终端卡片
 和全屏灯箱里，页面主体是亮的。所有影像都来自 2026 年的真实项目。
 
-- GitHub Pages 预览：<https://ninepoin4.github.io/zhou-lianxu-portfolio/>
-- 线上主页（待绑定）：<https://ninepoints.top>
+- 线上主页（当前）：<https://ninepoin4.github.io/zhou-lianxu-portfolio/>
 - GitHub：<https://github.com/ninepoin4/zhou-lianxu-portfolio>
+- 自有域名 ninepoints.top：暂时不可用，暂不绑定；站内链接与 SEO 已先指向 GitHub Pages。
 - B 站：<https://space.bilibili.com/28594226>
 - 小红书：<https://xhslink.cn/o/4wETLUWw4cq>
 
@@ -125,7 +125,7 @@ python scripts/subset-fonts.py
 
 片头 / 片尾卡与 showreel 由 ffmpeg 现场生成；标签字体为 Consolas，画面卡字体为
 Instrument Serif / Noto Serif SC。页头已改为本名「周连旭 / ZHOU LIANXU」，
-域名仍保留 ninepoints.top。
+自有域名 ninepoints.top 暂时不可用，线上先走 GitHub Pages。
 
 ### 字体与音乐授权
 
@@ -162,16 +162,19 @@ Instrument Serif / Noto Serif SC。页头已改为本名「周连旭 / ZHOU LIAN
 仓库 Settings → Pages 的 Source 已设为 **GitHub Actions**，最近一次构建已通过。
 站点地址：`https://ninepoin4.github.io/zhou-lianxu-portfolio/`
 
-### ninepoints.top
+### ninepoints.top（以后）
 
-`pnpm build` 生成 `dist/`，把整个目录上传到 `ninepoints.top` 根目录即可。
+当前 ninepoints.top 指向旧站，暂不使用。等域名可用后：
+`pnpm build` 生成 `dist/`，把整个目录上传到 `ninepoints.top` 根目录；
+GitHub Pages 也可以在 Settings → Pages 里把 Custom domain 设为 `ninepoints.top`，
+再把 `index.html`、`robots.txt`、`sitemap.xml` 里的 GitHub Pages 地址换回自有域名。
 `vite.config.ts` 里 `base: './'`，根目录或子路径都能工作。
 
 - Nginx 需要为 `.mp4` 设置 `video/mp4`、`.woff2` 设置 `font/woff2`；
 - 静态资源文件名带 hash，可长缓存；`media/` 下的视频建议
   `Cache-Control: public, max-age=31536000, immutable`；
 - Vercel / Netlify / Cloudflare Pages：build command `pnpm build`，output `dist`；
-- `public/robots.txt` 与 `public/sitemap.xml` 已按 `https://ninepoints.top/` 写好。
+- `public/robots.txt` 与 `public/sitemap.xml` 已按当前 Pages 地址写好；切回自有域名时一并替换。
 
 ---
 

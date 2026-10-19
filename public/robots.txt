@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ninepoints.top/sitemap.xml
+Sitemap: https://ninepoin4.github.io/zhou-lianxu-portfolio/sitemap.xml

@@ -398,7 +398,9 @@ export const contact = {
   phone: '133 7129 2462',
   phoneRaw: '13371292462',
   wechat: 'ly2336520586',
-  site: 'ninepoints.top',
+  site: 'ninepoin4.github.io/zhou-lianxu-portfolio',
+  siteUrl: 'https://ninepoin4.github.io/zhou-lianxu-portfolio/',
+  github: 'https://github.com/ninepoin4/zhou-lianxu-portfolio',
   city: '杭州',
 }
 

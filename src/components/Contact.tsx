@@ -178,12 +178,27 @@ export function Contact() {
                   <span className="font-mono text-[8px] text-ink/30">2026</span>
                 </div>
                 <a
-                  href="https://ninepoints.top"
+                  href={contact.siteUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="group mt-3 flex items-center justify-between border-b border-ink/12 pb-3"
                 >
-                  <span className="text-[12.5px] text-ink/65 transition-colors group-hover:text-ink">主页 / ninepoints.top</span>
+                  <span className="flex items-baseline gap-2">
+                    <span className="text-[12.5px] text-ink/70 transition-colors group-hover:text-ink">在线主页</span>
+                    <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-ink/40">GitHub Pages</span>
+                  </span>
+                  <ArrowUpRight size={13} strokeWidth={1.4} className="text-ink/30 transition-colors group-hover:text-amber" />
+                </a>
+                <a
+                  href={contact.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group mt-3 flex items-center justify-between border-b border-ink/12 pb-3"
+                >
+                  <span className="flex items-baseline gap-2">
+                    <span className="text-[12.5px] text-ink/70 transition-colors group-hover:text-ink">源码</span>
+                    <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-ink/40">GitHub</span>
+                  </span>
                   <ArrowUpRight size={13} strokeWidth={1.4} className="text-ink/30 transition-colors group-hover:text-amber" />
                 </a>
                 {socials.map((social) => (
