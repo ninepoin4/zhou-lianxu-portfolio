@@ -7,7 +7,8 @@
 胶片 HUD、时间码、片目索引和可播放的悬浮预览。深色只保留在影像窗、终端卡片
 和全屏灯箱里，页面主体是亮的。所有影像都来自 2026 年的真实项目。
 
-- 线上主页：<https://ninepoints.top>
+- GitHub Pages 预览：<https://ninepoin4.github.io/zhou-lianxu-portfolio/>
+- 线上主页（待绑定）：<https://ninepoints.top>
 - GitHub：<https://github.com/ninepoin4/zhou-lianxu-portfolio>
 - B 站：<https://space.bilibili.com/28594226>
 - 小红书：<https://xhslink.cn/o/4wETLUWw4cq>
@@ -158,7 +159,7 @@ Instrument Serif / Noto Serif SC。页头已改为本名「周连旭 / ZHOU LIAN
 2. `pnpm install --frozen-lockfile && pnpm build`；
 3. 把 `dist/` 发布到 GitHub Pages。
 
-仓库 Settings → Pages 的 Source 需选择 **GitHub Actions**。
+仓库 Settings → Pages 的 Source 已设为 **GitHub Actions**，最近一次构建已通过。
 站点地址：`https://ninepoin4.github.io/zhou-lianxu-portfolio/`
 
 ### ninepoints.top
