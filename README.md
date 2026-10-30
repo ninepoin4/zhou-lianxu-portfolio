@@ -10,8 +10,8 @@
 - 小红书：<https://xhslink.cn/o/4wETLUWw4cq>
 - 自有域名 ninepoints.top：暂不可用，站内链接与 SEO 先指向 GitHub Pages。
 
-> **当前状态：5 项目改版已推送，由 GitHub Pages 自动部署。**
-> 这一轮的 5 项目改版包含新的影游工坊首案、素材成片 2.0、重剪 showreel 和 3D 房间；推送到 `main` 后由 Actions 自动发布。
+> **当前状态：5 项目版 + 量产矩阵 12 秒示例，已推送并由 GitHub Pages 自动部署。**
+> 这一轮加入巴洛克珍珠项链示例成片，清理页面冗余小字与注释性文案；推送到 `main` 后由 Actions 自动发布。
 
 ---
 
@@ -76,7 +76,7 @@ scripts/subset-fonts.py    按当前页面用字重新生成中文子集
 | --- | --- | --- | --- |
 | 01 | 影游工坊 / YINGUO STUDIO | 互动影游工作台 | 5 种节点、分支 / 变量、离线导出、196 条自测 |
 | 02 | Dara Studio / LOCAL WORKBENCH | 本地短剧工作台 | 5 类素材库、6 类模板、一句话开拍、可独立部署 |
-| 03 | 量产矩阵 / PRODUCTION MATRIX | 本地出片台 | 4 条产线、10 环节混剪、28s 成片约 60s、AI 补镜 |
+| 03 | 量产矩阵 / PRODUCTION MATRIX | 本地出片台 | 4 条产线、10 环节混剪、28s 成片约 60s、12 秒示例 |
 | 04 | 自媒体矩阵 / OWNED MEDIA | B 站 + 小红书内容线 | 300 万+ 播放、百万级浏览、2 个平台 |
 | 05 | 内容工厂 / CONTENT ENGINE | 剧情 / 种草内容系统 | 100 篇剧情、60 篇种草、20+ 项目 |
 
@@ -127,8 +127,8 @@ python scripts/subset-fonts.py
 
 ## 素材来源
 
-所有片段都从原项目成片中截取 6–10 秒，静音、H.264、CRF 27，长边 540–1280 px。
-完整成片没有放进站点，以免首屏过重；如需完整版可在灯箱里加「完整版」按钮或外链。
+项目节选从原成片中截取 6–10 秒，静音、H.264、CRF 27，长边 540–1280 px。
+量产矩阵保留一条完整的 12 秒示例，720×1280、H.264 + AAC、约 2.1 MB，按需在灯箱播放，不进入首屏加载。
 
 | 站点文件 | 原始项目 / 文件 |
 | --- | --- |
@@ -143,6 +143,8 @@ python scripts/subset-fonts.py
 | `cases/plate-studio-mobile.jpg` | 同一案例板的 4:5 手机版（1000×1250） |
 | `cases/plate-matrix.jpg` | 量产矩阵案例板（2000×1250；界面为素材成片 2.0） |
 | `cases/matrix-video.png` | 素材成片「3 条素材待混剪」界面（1600×1000，2026.10） |
+| `clips/matrix-example.mp4` | 量产矩阵 12 秒示例（720×1280，H.264 + AAC，2.1 MB）；源文件 `D:/putuo/普陀轻念流工作流/AI美学反推06-巴洛克珍珠项链-潮汐铸形-12秒/成片/巴洛克珍珠项链-潮汐铸形-卡点变奏版-12秒.mp4` |
+| `clips/matrix-example.jpg` | 示例成片海报（720×1280，取自 5.0s） |
 | `cases/plate-factory.jpg` | 内容工厂案例板（2000×1250） |
 | `ui/app-studio.jpg` 等 | `额外项目\图像成片_宣传物料\promo-video\assets\ui*` |
 | `ui/factory.jpg` | `额外项目\素材工厂\work\验收` 的四帧验收拼图 |
@@ -171,7 +173,7 @@ python scripts/subset-fonts.py
 - 自定义光标只在 `pointer: fine` 下启用，触屏不隐藏系统光标。
 - 图片有 alt，装饰性影像标记 aria-hidden；跳转链接、章节导轨、aria-label 齐全。
 - 视频默认静音、`playsInline`，点击后可在灯箱里开声音。
-- 手机端：非高画幅案例自动变为 4:5，Dara Studio 使用专门设计的 4:5 案例板。
+- 手机端：图像案例自动切换为 4:5；量产矩阵保留 16:10 全幅界面，避免裁掉关键信息。
 
 ---
 

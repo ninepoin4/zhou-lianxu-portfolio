@@ -29,6 +29,36 @@ export type LightboxItem = {
   tools: string[]
   role: string[]
   links?: { label: string; url: string }[]
+  sample?: boolean
+}
+
+export function exampleToItem(project: Project): LightboxItem | null {
+  if (!project.example) return null
+  return {
+    index: project.index,
+    title: '潮汐铸形',
+    en: 'MATRIX / SAMPLE FILM',
+    client: '量产矩阵 · 巴洛克珍珠项链',
+    category: '示例成片',
+    year: project.year,
+    ratio: project.example.ratio,
+    duration: project.example.duration,
+    mediaType: 'video',
+    src: project.example.src,
+    poster: project.example.poster,
+    summary: '一条 12 秒的巴洛克珍珠项链卡点短片的完整成片。',
+    details:
+      '由量产矩阵完成：素材选择、音乐卡点与 9:16 竖版输出。它展示的不是一个镜头，而是一条真实成片从素材到落点的结果。',
+    deliverables: ['9:16 竖版成片', '音乐卡点', '品牌珠宝影像'],
+    metrics: [
+      { value: '12s', label: '时长' },
+      { value: '9:16', label: '画幅' },
+      { value: '01', label: '示例' },
+    ],
+    tools: project.tools,
+    role: project.role,
+    sample: true,
+  }
 }
 
 export function projectToItem(project: Project): LightboxItem {
@@ -62,10 +92,12 @@ function CaseChapter({
   project,
   position,
   onOpen,
+  onOpenExample,
 }: {
   project: Project
   position: number
   onOpen: () => void
+  onOpenExample?: () => void
 }) {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
@@ -94,12 +126,7 @@ function CaseChapter({
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start lg:gap-12 xl:gap-16">
         <div className={textColumn}>
           <Reveal className="lg:sticky lg:top-28">
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="font-mono text-[10px] tracking-[0.18em] text-amber">{project.index}</span>
-              <span className="text-right font-mono text-[8px] uppercase tracking-[0.16em] text-ink/40">
-                {project.category} · {project.year}
-              </span>
-            </div>
+            <span className="font-mono text-[10px] tracking-[0.18em] text-amber">{project.index}</span>
 
             <h3 className="display mt-4 text-[clamp(2.5rem,5.2vw,5rem)] leading-[0.98] text-ink">
               {project.title}
@@ -119,18 +146,10 @@ function CaseChapter({
                   <p className="display whitespace-nowrap text-[clamp(0.98rem,1.45vw,1.35rem)] leading-none tracking-[-0.02em] text-ink">
                     {metric.value}
                   </p>
-                  <p className="mt-2 font-mono text-[7.5px] uppercase leading-[1.5] tracking-[0.12em] text-ink/40">
+                  <p className="mt-2 text-[9px] leading-[1.5] tracking-[0.04em] text-ink/45">
                     {metric.label}
                   </p>
                 </div>
-              ))}
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {project.tools.map((tool) => (
-                <span key={tool} className="border border-ink/15 px-2 py-1 text-[10px] text-ink/50">
-                  {tool}
-                </span>
               ))}
             </div>
 
@@ -193,7 +212,7 @@ function CaseChapter({
               >
                 <motion.div
                   className={`relative overflow-hidden shadow-[0_26px_55px_-38px_rgba(30,22,14,0.45)] ring-1 ring-ink/15 ${ratioClass} ${
-                    tall ? '' : 'max-sm:aspect-[4/5]'
+                    tall ? '' : project.id === 'matrix' ? 'max-sm:aspect-[16/10]' : 'max-sm:aspect-[4/5]'
                   } ${project.id === 'social' ? 'border-[7px] border-[#14130f] bg-[#14130f] sm:border-[10px]' : 'bg-ink/5'}`}
                   initial={reduced ? undefined : { clipPath: 'inset(0 0 100% 0)' }}
                   animate={inView || reduced ? { clipPath: 'inset(0 0 0% 0)' } : undefined}
@@ -222,7 +241,7 @@ function CaseChapter({
                             project.mobileSrc
                               ? 'max-sm:object-center'
                               : project.id === 'matrix'
-                                ? 'max-sm:object-[80%_center]'
+                                ? 'max-sm:object-center'
                                 : 'max-sm:object-[74%_center]'
                           }`}
                         />
@@ -231,13 +250,6 @@ function CaseChapter({
                   </motion.div>
 
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent opacity-50 transition-opacity duration-500 group-hover:opacity-80" />
-
-                  <div className="absolute left-0 top-0 z-10 flex items-center gap-2 bg-paper/90 px-3 py-2 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber" />
-                    <span className="font-mono text-[7.5px] uppercase tracking-[0.18em] text-ink/55">
-                      {project.kind === 'interactive' ? 'INTERACTIVE' : project.mediaType === 'video' ? 'FILM' : 'SYSTEM'} / {project.index}
-                    </span>
-                  </div>
 
                   <div className="absolute bottom-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-cream/55 bg-ink/25 text-cream backdrop-blur-sm transition-all duration-500 group-hover:border-amber group-hover:bg-amber group-hover:text-ink">
                     {project.mediaType === 'video' ? (
@@ -248,15 +260,37 @@ function CaseChapter({
                   </div>
                 </motion.div>
 
-                <div className="mt-3 flex items-center justify-between gap-4">
-                  <span className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-ink/40">
-                    FIG. {project.index} — {project.title}
-                  </span>
-                  <span className="font-mono text-[7.5px] uppercase tracking-[0.14em] text-ink/35">
-                    {project.ratio} / {project.duration}
-                  </span>
-                </div>
               </button>
+
+              {project.example && onOpenExample ? (
+                <button
+                  type="button"
+                  onClick={onOpenExample}
+                  className="group mt-5 flex w-full items-center gap-4 bg-ink p-3 text-left text-cream transition-colors hover:bg-[#1b1a15]"
+                  aria-label={`播放示例成片：${project.example.title}`}
+                  data-cursor-label="播放示例"
+                >
+                  <span className="relative block aspect-[9/16] w-14 shrink-0 overflow-hidden bg-black">
+                    <img
+                      src={project.example.poster}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+                    />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[10px] tracking-[0.08em] text-amber">
+                      示例成片 · 12 秒
+                    </span>
+                    <span className="mt-1 block truncate text-[13px] text-cream/90">
+                      {project.example.title}
+                    </span>
+                  </span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-cream/25 text-cream transition-colors group-hover:border-amber group-hover:text-amber">
+                    <Play size={13} strokeWidth={1.5} fill="currentColor" className="ml-0.5" />
+                  </span>
+                </button>
+              ) : null}
             </div>
 
             {tall && (
@@ -278,7 +312,13 @@ function CaseChapter({
   )
 }
 
-export function Works({ onOpen }: { onOpen: (item: LightboxItem) => void }) {
+export function Works({
+  onOpen,
+  onOpenExample,
+}: {
+  onOpen: (item: LightboxItem) => void
+  onOpenExample: (item: LightboxItem) => void
+}) {
   const [active, setActive] = useState('01')
 
   useEffect(() => {
@@ -300,12 +340,11 @@ export function Works({ onOpen }: { onOpen: (item: LightboxItem) => void }) {
   return (
     <section id="works" className="relative overflow-hidden bg-paper py-16 text-ink sm:py-20 lg:py-24">
       <div className="container-x relative">
-        <div className="flex items-center justify-between border-b border-ink/15 pb-4">
+        <div className="flex items-center border-b border-ink/15 pb-4">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 rounded-full bg-amber" />
-            02 / SELECTED 05
+            精选项目
           </span>
-          <span className="eyebrow text-ink/40">2024 — 2026</span>
         </div>
 
         <div className="mt-9 grid gap-7 lg:grid-cols-[1.25fr_0.75fr] lg:items-end lg:gap-16">
@@ -320,7 +359,7 @@ export function Works({ onOpen }: { onOpen: (item: LightboxItem) => void }) {
           />
           <Reveal delay={0.12}>
             <p className="max-w-[35ch] text-[13px] leading-[1.95] text-ink/60 lg:justify-self-end">
-              从 8 个项目里，留下 5 条能说明方法的。它们不是五种风格，是同一条链路的不同出口。
+              五个项目，一条链路。
             </p>
           </Reveal>
         </div>
@@ -344,11 +383,6 @@ export function Works({ onOpen }: { onOpen: (item: LightboxItem) => void }) {
               </button>
             )
           })}
-          <span className="ml-auto hidden font-mono text-[8px] uppercase tracking-[0.18em] text-ink/30 sm:block">
-            {String(projects.length).padStart(2, '0')} CASES /{' '}
-            {String(projects.filter((project) => project.kind === 'interactive').length).padStart(2, '0')} INTERACTIVE /{' '}
-            {String(projects.filter((project) => project.kind === 'system').length).padStart(2, '0')} SYSTEM
-          </span>
         </div>
 
         <div className="mt-12 flex flex-col lg:mt-16">
@@ -358,48 +392,45 @@ export function Works({ onOpen }: { onOpen: (item: LightboxItem) => void }) {
               project={project}
               position={index}
               onOpen={() => onOpen(projectToItem(project))}
+              onOpenExample={
+                project.example
+                  ? () => {
+                      const example = exampleToItem(project)
+                      if (example) onOpenExample(example)
+                    }
+                  : undefined
+              }
             />
           ))}
         </div>
 
         <div className="mt-12 flex flex-col gap-5 border-t border-ink/15 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-[44ch] text-[12px] leading-[1.8] text-ink/50">
-            五个项目，同一条产线。剩下的不是被删掉，是被收进了方法里。
+            五个项目，同一条产线。
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
             <button
               type="button"
               onClick={() => scrollToId('pipeline')}
-              className="group flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] text-ink/55 transition-colors hover:text-ink"
+              className="group flex items-center gap-2 text-[12px] text-ink/55 transition-colors hover:text-ink"
             >
-              看它们怎么被做出来
-              <ArrowDown size={11} strokeWidth={1.4} className="transition-transform duration-500 group-hover:translate-y-1" />
+              看产线
+              <ArrowDown size={12} strokeWidth={1.4} className="transition-transform duration-500 group-hover:translate-y-1" />
             </button>
             <a
               href={`${base}room/`}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-2 border border-ink/25 px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.16em] text-ink/70 transition-colors hover:border-ink hover:bg-ink hover:text-cream"
+              className="group inline-flex items-center gap-2 border border-ink/25 px-4 py-2.5 text-[11px] text-ink/70 transition-colors hover:border-ink hover:bg-ink hover:text-cream"
               data-cursor-label="走进"
             >
-              走进 3D 房间
-              <ArrowUpRight size={11} strokeWidth={1.4} className="transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              3D 房间
+              <ArrowUpRight size={12} strokeWidth={1.4} className="transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </a>
           </div>
         </div>
       </div>
 
-      <div
-        className="pointer-events-none absolute right-5 top-1/3 hidden 2xl:block"
-        aria-hidden="true"
-      >
-        <p
-          className="font-mono text-[7px] uppercase tracking-[0.4em] text-ink/25"
-          style={{ writingMode: 'vertical-rl' }}
-        >
-          SELECTED WORKS / 2024—2026
-        </p>
-      </div>
     </section>
   )
 }

@@ -93,6 +93,10 @@ export default function App() {
     [projectItems],
   )
 
+  const openExample = useCallback((item: LightboxItem) => {
+    setLightbox({ items: [item], startIndex: 0, key: Date.now() })
+  }, [])
+
   const openReel = useCallback(() => {
     setLightbox({ items: [reelItem], startIndex: 0, key: Date.now() })
   }, [])
@@ -118,7 +122,7 @@ export default function App() {
         <Hero ready={ready} onPlayReel={openReel} />
         <Statement />
         <ReelBand onPlayReel={openReel} />
-        <Works onOpen={openProject} />
+        <Works onOpen={openProject} onOpenExample={openExample} />
         <Numbers />
         <Pipeline />
         <About />

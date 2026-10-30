@@ -28,10 +28,8 @@ export function Statement() {
         </div>
 
         <div className="container-x relative">
-          <div className="flex items-center justify-between border-b border-ink/15 pb-4">
-            <span className="eyebrow text-ink/55">01 / STATEMENT</span>
-            <span className="eyebrow hidden text-ink/35 sm:block">为什么做这些</span>
-            <span className="eyebrow text-ink/35">2024 — 2026</span>
+          <div className="border-b border-ink/15 pb-4">
+            <span className="eyebrow text-ink/55">方法</span>
           </div>
 
           <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-[1fr_280px] lg:gap-20">
@@ -68,27 +66,11 @@ export function Statement() {
                 </Reveal>
               </div>
 
-              <Reveal delay={0.3} className="mt-10">
-                <div className="flex flex-wrap items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-ink/45">
-                  <span className="h-1 w-1 rounded-full bg-amber" />
-                  <span>Wan 3.0</span>
-                  <span className="text-ink/20">/</span>
-                  <span>HyperFrames</span>
-                  <span className="text-ink/20">/</span>
-                  <span>FastAPI</span>
-                  <span className="text-ink/20">/</span>
-                  <span>Next.js</span>
-                  <span className="text-ink/20">/</span>
-                  <span>豆包 TTS</span>
-                  <span className="text-ink/20">/</span>
-                  <span>ffmpeg</span>
-                </div>
-              </Reveal>
             </div>
 
             <aside className="flex flex-col gap-8">
               <div className="border-t border-ink/20 pt-4">
-                <p className="eyebrow text-ink/40">工作方式 / METHOD</p>
+                <p className="eyebrow text-ink/40">工作方式</p>
                 <ul className="mt-5 flex flex-col">
                   {principles.map((item, index) => (
                     <Reveal key={item.index} delay={0.1 + index * 0.08}>
@@ -112,10 +94,6 @@ export function Statement() {
                     loading="lazy"
                     className="aspect-[4/5] w-full object-cover grayscale-[0.2] transition-transform duration-[1.4s] ease-soft hover:scale-[1.04]"
                   />
-                  <figcaption className="mt-2 flex items-center justify-between font-mono text-[8.5px] uppercase tracking-[0.18em] text-ink/40">
-                    <span>FIG. 01 — 工艺 / 触感</span>
-                    <span>DARA 2026</span>
-                  </figcaption>
                 </figure>
               </Reveal>
             </aside>

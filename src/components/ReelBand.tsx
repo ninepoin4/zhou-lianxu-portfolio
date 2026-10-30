@@ -24,12 +24,11 @@ export function ReelBand({ onPlayReel }: { onPlayReel: () => void }) {
       <div className="absolute inset-0 bg-gradient-to-t from-paper/60 via-transparent to-paper/25" />
 
       <div className="container-x relative flex h-full flex-col justify-between py-8 sm:py-10">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 rounded-full bg-amber" />
-            REEL / 2024—2026
+            作品集短片
           </span>
-          <span className="eyebrow hidden text-ink/55 sm:block">5 PROJECTS · 25 SECONDS</span>
         </div>
 
         <div className="flex items-end justify-between gap-8">
@@ -39,9 +38,6 @@ export function ReelBand({ onPlayReel }: { onPlayReel: () => void }) {
               <br />
               看 5 个项目。
             </h2>
-            <p className="mt-4 max-w-[34ch] text-[12.5px] leading-relaxed text-ink/55">
-              建议开启声音。五个项目，五种内容，一条产线。
-            </p>
           </div>
 
           <Magnetic strength={0.22}>
@@ -54,10 +50,7 @@ export function ReelBand({ onPlayReel }: { onPlayReel: () => void }) {
               aria-label="播放作品集短片"
             >
               <span className="absolute inset-2 rounded-full border border-ink/10 transition-transform duration-700 group-hover:scale-105" />
-              <Play size={20} strokeWidth={1.2} fill="currentColor" className="ml-1 text-ink transition-colors duration-500 group-hover:text-amber" />
-              <span className="mt-2 font-mono text-[8px] uppercase tracking-[0.22em] text-ink/50 transition-colors group-hover:text-ink/80">
-                Play reel
-              </span>
+              <Play size={22} strokeWidth={1.2} fill="currentColor" className="ml-1 text-ink transition-colors duration-500 group-hover:text-amber" />
             </button>
           </Magnetic>
         </div>

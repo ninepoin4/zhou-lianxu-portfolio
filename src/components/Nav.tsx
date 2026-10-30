@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight, X } from 'lucide-react'
 import { DotsMark } from './DotsMark'
-import { useClock } from '../lib/useClock'
 import { scrollToId, setScrollLocked } from '../lib/scroll'
 import { contact, socials } from '../data/content'
 import { useActiveSection } from '../lib/useActiveSection'
@@ -20,7 +19,6 @@ export function Nav({ ready }: { ready: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const reduced = useReducedMotion()
-  const clock = useClock()
   const activeSection = useActiveSection(sectionIds)
 
   useEffect(() => {
@@ -77,15 +75,8 @@ export function Nav({ ready }: { ready: boolean }) {
                 key={link.id}
                 type="button"
                 onClick={() => go(link.id)}
-                className="group relative flex items-baseline gap-2"
+                className="group relative flex items-baseline"
               >
-                <span
-                  className={`font-mono text-[9px] transition-opacity duration-300 ${
-                    activeSection === link.id ? 'text-amber' : 'text-amber/55'
-                  }`}
-                >
-                  {link.index}
-                </span>
                 <span
                   className={`relative text-[13px] tracking-[0.06em] transition-colors duration-300 ${
                     activeSection === link.id ? 'text-ink' : 'text-ink/65 group-hover:text-ink'
@@ -104,10 +95,9 @@ export function Nav({ ready }: { ready: boolean }) {
               href={`${base}room/`}
               target="_blank"
               rel="noreferrer"
-              className="group relative flex items-baseline gap-2"
+              className="group relative flex items-baseline"
               data-cursor-label="走进"
             >
-              <span className="font-mono text-[9px] text-amber/55">04</span>
               <span className="relative flex items-center gap-1 text-[13px] tracking-[0.06em] text-ink/65 transition-colors duration-300 group-hover:text-ink">
                 房间
                 <ArrowUpRight size={11} strokeWidth={1.4} className="text-amber/70 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -117,9 +107,6 @@ export function Nav({ ready }: { ready: boolean }) {
           </nav>
 
           <div className="flex items-center gap-5">
-            <span className="hidden font-mono text-[9px] uppercase tracking-[0.22em] text-ink/40 xl:block">
-              HANGZHOU {clock.slice(0, 5)}
-            </span>
             <button
               type="button"
               onClick={() => go('contact')}
@@ -170,7 +157,7 @@ export function Nav({ ready }: { ready: boolean }) {
             </div>
 
             <div className="flex flex-1 flex-col justify-center px-6 sm:px-10">
-              <p className="eyebrow mb-8 text-amber">SITE INDEX / 目录</p>
+              <p className="eyebrow mb-8 text-amber">目录</p>
               <div className="flex flex-col">
                 {links.map((link, index) => (
                   <motion.button
@@ -183,7 +170,6 @@ export function Nav({ ready }: { ready: boolean }) {
                     transition={{ delay: 0.18 + index * 0.07, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <span className="display text-[13vw] leading-none text-ink">{link.label}</span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/40">{link.en}</span>
                   </motion.button>
                 ))}
                 <motion.a
@@ -197,10 +183,7 @@ export function Nav({ ready }: { ready: boolean }) {
                   transition={{ delay: 0.39, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <span className="display text-[13vw] leading-none text-ink">房间</span>
-                  <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink/40">
-                    3D ROOM
-                    <ArrowUpRight size={12} strokeWidth={1.4} className="text-amber/70" />
-                  </span>
+                  <ArrowUpRight size={16} strokeWidth={1.4} className="text-amber/70" />
                 </motion.a>
                 <div className="border-t border-ink/12" />
               </div>
@@ -242,10 +225,9 @@ export function Nav({ ready }: { ready: boolean }) {
                   </a>
                 ))}
               </div>
-              <div className="mt-6 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-ink/35">
-                <span>{contact.city} · 一周内到岗</span>
-                <span>{clock}</span>
-              </div>
+              <p className="mt-6 text-[10px] tracking-[0.14em] text-ink/35">
+                {contact.city} · 一周内到岗
+              </p>
             </motion.div>
           </motion.div>
         )}

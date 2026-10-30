@@ -40,9 +40,8 @@ export function Loader({ onDone }: { onDone: () => void }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <DotsMark size={16} />
-          <span className="eyebrow text-ink/60">周连旭 / ZHOU LIANXU</span>
+          <span className="eyebrow text-ink/60">周连旭</span>
         </div>
-        <span className="eyebrow text-ink/40">PORTFOLIO 2026</span>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-7">
@@ -59,15 +58,11 @@ export function Loader({ onDone }: { onDone: () => void }) {
         <div className="h-px w-[42vw] max-w-[320px] overflow-hidden bg-ink/15">
           <motion.div className="h-full bg-amber" style={{ width: `${progress * 100}%` }} />
         </div>
-        <p className="eyebrow text-ink/40">AI FILM / WORKFLOW / DEPLOYMENT</p>
       </div>
 
-      <div className="flex items-end justify-between">
-        <span className="eyebrow text-ink/40">LOADING REEL</span>
-        <span className="font-mono text-[11px] tabular-nums text-ink/60">
-          {Math.round(progress * 100)
-            .toString()
-            .padStart(3, '0')}
+      <div className="flex items-end justify-end">
+        <span className="font-mono text-[11px] tabular-nums text-ink/50">
+          {Math.round(progress * 100)}
         </span>
       </div>
     </motion.div>

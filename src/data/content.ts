@@ -1,6 +1,15 @@
 export type ProjectKind = 'film' | 'system' | 'interactive'
 export type ProjectRatio = '16:9' | '9:16' | '16:10'
 
+export type ProjectExample = {
+  src: string
+  poster: string
+  title: string
+  caption: string
+  duration: string
+  ratio: '9:16'
+}
+
 export type Project = {
   id: string
   index: string
@@ -16,6 +25,7 @@ export type Project = {
   src: string
   poster: string
   mobileSrc?: string
+  example?: ProjectExample
   detailImage?: string
   detailCaption?: string
   summary: string
@@ -100,6 +110,14 @@ export const projects: Project[] = [
     mediaType: 'image',
     src: caseImage('plate-matrix.jpg'),
     poster: caseImage('plate-matrix.jpg'),
+    example: {
+      src: `${import.meta.env.BASE_URL}media/clips/matrix-example.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/clips/matrix-example.jpg`,
+      title: '巴洛克珍珠项链 · 潮汐铸形',
+      caption: '卡点变奏版 / 12 秒',
+      duration: '12s',
+      ratio: '9:16',
+    },
     summary:
       '四条产线，一台本地出片台。视频混剪、图像成片、AI 补镜、字幕对齐，从一条素材到能发的片。',
     details:

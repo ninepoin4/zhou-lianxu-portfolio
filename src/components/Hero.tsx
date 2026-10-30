@@ -3,17 +3,15 @@ import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTran
 import { ArrowDown, ArrowUpRight, Play } from 'lucide-react'
 import { MaskLines } from './Reveal'
 import { Magnetic } from './Magnetic'
-import { Timecode } from './Timecode'
-import { DotsMark } from './DotsMark'
 import { scrollToId } from '../lib/scroll'
 import { contact, stats } from '../data/content'
 
 const base = import.meta.env.BASE_URL
 
 const contactSheet = [
-  { src: `${base}media/cases/yinguo-player.png`, label: 'YINGUO' },
-  { src: `${base}media/clips/w02-pearlstory.jpg`, label: 'STUDIO' },
-  { src: `${base}media/clips/w05-x9795.jpg`, label: 'FACTORY' },
+  `${base}media/cases/yinguo-player.png`,
+  `${base}media/clips/w02-pearlstory.jpg`,
+  `${base}media/clips/w05-x9795.jpg`,
 ]
 
 export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => void }) {
@@ -77,28 +75,13 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber" />
             </span>
-            <span className="eyebrow whitespace-nowrap text-ink/55">OPEN TO WORK · {contact.city}</span>
+            <span className="eyebrow whitespace-nowrap text-ink/55">开放合作 · {contact.city}</span>
           </div>
-          <span className="eyebrow hidden text-ink/35 md:block">30.27°N / 120.15°E</span>
-          <span className="eyebrow whitespace-nowrap text-ink/45">
-            <span className="sm:hidden">2026</span>
-            <span className="hidden sm:inline">PORTFOLIO 2024—2026</span>
-          </span>
         </motion.div>
 
         {/* main */}
         <div className="hero-main grid flex-1 grid-cols-1 items-center gap-10 py-6 sm:py-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-6 xl:gap-12">
           <div className="relative z-10 max-w-[780px]">
-            <motion.div
-              className="mb-5 flex items-center gap-3 sm:mb-7"
-              initial={reduced ? undefined : { opacity: 0 }}
-              animate={ready ? { opacity: 1 } : undefined}
-              transition={{ duration: 0.9, delay: 0.5 }}
-            >
-              <DotsMark size={14} className="text-ink/80" />
-              <span className="eyebrow text-ink/55">SELECTED 05 / AI 影像 · 工作流 · 部署</span>
-            </motion.div>
-
             <MaskLines
               ready={ready}
               delay={0.35}
@@ -113,9 +96,6 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                 <span key="2">做成一条</span>,
                 <span key="3" className="flex flex-wrap items-baseline gap-x-3">
                   生产线<span className="text-amber">。</span>
-                  <span className="mb-2 hidden font-mono text-[9px] uppercase tracking-[0.22em] text-ink/35 sm:inline">
-                    (the one that ships)
-                  </span>
                 </span>,
               ]}
             />
@@ -127,8 +107,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                 animate={ready ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: 1, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
               >
-                我是周连旭。用 Wan 3.0、HyperFrames、FastAPI 和一点偏执，把一句话变成能交付的片子；
-                也把<span className="whitespace-nowrap">重复劳动</span>，改写成可以复用的系统。五个项目，是同一条产线的五个出口。
+                我是周连旭。把一句话，做成能交付的片子；也把<span className="whitespace-nowrap">重复劳动</span>，改写成可以复用的系统。五个项目，是同一条产线的五个出口。
               </motion.p>
 
               <motion.div
@@ -180,26 +159,17 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             className="relative z-0 mx-auto flex w-full max-w-[300px] flex-col items-center lg:mx-0 lg:ml-auto lg:max-w-[320px]"
             style={{ y: windowY }}
           >
-            <div className="hidden w-full items-center justify-between pb-3 font-mono text-[8.5px] uppercase tracking-[0.24em] text-ink/35 lg:flex">
-              <span>SELECTED 05 / NOW LOOPING</span>
-              <span>09 : 16</span>
-            </div>
-
             <div className="relative w-[68vw] max-w-[264px] sm:w-[280px] lg:w-[clamp(238px,33vh,300px)]">
               {/* contact sheet */}
               <div className="absolute -left-[86px] top-6 hidden w-[68px] flex-col gap-1.5 xl:flex">
-                <span className="mb-1 font-mono text-[8px] uppercase tracking-[0.24em] text-ink/35">Contact sheet</span>
-                {contactSheet.map((item) => (
-                  <figure key={item.label} className="group relative overflow-hidden ring-1 ring-ink/10">
+                {contactSheet.map((src) => (
+                  <figure key={src} className="group relative overflow-hidden ring-1 ring-ink/10">
                     <img
-                      src={item.src}
+                      src={src}
                       alt=""
                       loading="lazy"
                       className="aspect-square w-full object-cover opacity-80 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0"
                     />
-                    <span className="absolute bottom-1 left-1 font-mono text-[7px] tracking-[0.16em] text-cream/80 drop-shadow">
-                      {item.label}
-                    </span>
                   </figure>
                 ))}
               </div>
@@ -237,43 +207,9 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                         'repeating-linear-gradient(to bottom, rgba(0,0,0,0.55) 0px, rgba(0,0,0,0.55) 1px, transparent 1px, transparent 3px)',
                     }}
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/35 via-transparent to-ink/55" />
-
-                  {/* HUD — light-on-dark inside the video */}
-                  <div className="absolute inset-0 p-3">
-                    <div className="flex items-start justify-between">
-                      <span className="flex items-center gap-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-cream/80">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber" />
-                        REC
-                      </span>
-                      <Timecode className="text-[8px] tracking-[0.12em] text-cream/70" />
-                    </div>
-                    <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-                      <div className="flex flex-col gap-1 font-mono text-[7.5px] uppercase tracking-[0.18em] text-cream/65">
-                        <span>DARA / 360° ORBIT</span>
-                        <span className="text-cream/40">9:16 · SILENT · LOOP</span>
-                      </div>
-                      <span className="font-mono text-[7.5px] text-cream/50">30FPS</span>
-                    </div>
-                    <span className="absolute left-1 top-1 h-3 w-3 border-l border-t border-cream/40" />
-                    <span className="absolute right-1 top-1 h-3 w-3 border-r border-t border-cream/40" />
-                    <span className="absolute bottom-1 left-1 h-3 w-3 border-b border-l border-cream/40" />
-                    <span className="absolute bottom-1 right-1 h-3 w-3 border-b border-r border-cream/40" />
-                  </div>
-
-                  <div className="absolute inset-x-0 bottom-0 h-[2px] bg-cream/15">
-                    <div
-                      className="h-full bg-amber"
-                      style={{ animation: reduced ? undefined : 'playhead 9s linear infinite' }}
-                    />
-                  </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/20 via-transparent to-ink/30" />
                 </motion.div>
               </motion.div>
-
-              <div className="mt-3 flex items-center justify-between font-mono text-[8.5px] uppercase tracking-[0.2em] text-ink/35">
-                <span>© ZHOU LIANXU</span>
-                <span>{contact.city} · CN</span>
-              </div>
             </div>
           </motion.div>
         </div>
@@ -289,7 +225,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             <dl className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4 sm:gap-x-12">
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1">
-                  <dt className="order-2 font-mono text-[8.5px] uppercase tracking-[0.16em] text-ink/40">{stat.label}</dt>
+                  <dt className="order-2 text-[9.5px] tracking-[0.06em] text-ink/45">{stat.label}</dt>
                   <dd className="order-1 display text-[22px] leading-none text-ink sm:text-[26px]">
                     {stat.value.toLocaleString('en-US')}
                     <span className="text-amber">{stat.suffix}</span>
@@ -301,45 +237,15 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             <button
               type="button"
               onClick={() => scrollToId('statement')}
-              className="group flex items-center gap-4 self-start sm:self-auto"
+              className="group flex items-center self-start sm:self-auto"
               aria-label="向下滚动"
             >
-              <span className="font-mono text-[8.5px] uppercase tracking-[0.24em] text-ink/40 transition-colors group-hover:text-ink/70">
-                Scroll to explore
-              </span>
               <span className="relative h-10 w-px overflow-hidden bg-ink/15">
                 <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2.2s_ease-in-out_infinite] bg-amber" />
               </span>
             </button>
           </div>
         </motion.div>
-      </div>
-
-      {/* availability ticker */}
-      <div className="relative z-10 mt-4 overflow-hidden border-y border-ink/10 bg-ink/[0.02] py-1.5">
-        <div className="marquee-track flex w-max" style={{ ['--marquee-duration' as string]: '36s' }}>
-          {[0, 1].map((group) => (
-            <div key={group} className="flex shrink-0 items-center" aria-hidden={group === 1}>
-              {[
-                'OPEN TO WORK',
-                'AI 影像 / 工作流 / 部署',
-                '杭州 · 一周内到岗',
-                '5 个精选项目',
-                '196 条自测断言',
-                '5 种互动节点',
-                '把 AI 做成一条生产线',
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="flex items-center gap-5 whitespace-nowrap px-5 font-mono text-[9px] uppercase tracking-[0.24em] text-ink/40"
-                >
-                  {item}
-                  <span className="h-1 w-1 rounded-full bg-amber/70" />
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   )

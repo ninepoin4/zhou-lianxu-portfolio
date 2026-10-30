@@ -9,13 +9,11 @@ export function About() {
   return (
     <section id="about" className="relative bg-[#e8e3d6] py-20 text-ink sm:py-24 lg:py-28">
       <div className="container-x">
-        <div className="flex items-center justify-between border-b border-ink/15 pb-4">
+        <div className="flex items-center border-b border-ink/15 pb-4">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 rounded-full bg-amber" />
-            04 / ABOUT
+            关于
           </span>
-          <span className="eyebrow hidden text-ink/40 sm:block">技术是我的手，叙事是我的眼</span>
-          <span className="eyebrow text-ink/40">周连旭 / ZHOU LIANXU</span>
         </div>
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[350px_1fr] lg:gap-20">
@@ -28,13 +26,7 @@ export function About() {
                     alt="周连旭肖像"
                     className="aspect-square w-full object-cover object-top grayscale transition-all duration-[1.2s] ease-soft group-hover:grayscale-0"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
-                  <span className="absolute left-3 top-3 font-mono text-[8px] uppercase tracking-[0.2em] text-cream/50">
-                    PORTRAIT / 2026
-                  </span>
-                  <span className="absolute bottom-3 right-3 font-mono text-[8px] uppercase tracking-[0.18em] text-cream/50">
-                    35.05°N
-                  </span>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
                 </div>
                 <figcaption className="mt-3 flex items-start justify-between">
                   <div>
@@ -52,24 +44,9 @@ export function About() {
               <p className="mt-5 text-[13px] leading-relaxed text-ink/60">
                 AI 影像 / 工作流 / 部署
               </p>
-              <ul className="mt-5 flex flex-col gap-2 border-t border-ink/12 pt-4 font-mono text-[9px] uppercase tracking-[0.14em] text-ink/40">
-                <li className="flex justify-between gap-4">
-                  <span>BASE</span>
-                  <span className="text-ink/65">临沂 → 杭州</span>
-                </li>
-                <li className="flex justify-between gap-4">
-                  <span>STATUS</span>
-                  <span className="text-amber">可入职 · 一周内</span>
-                </li>
-                <li className="flex justify-between gap-4">
-                  <span>DEGREE</span>
-                  <span className="text-ink/65">本科 · 营销管理</span>
-                </li>
-                <li className="flex justify-between gap-4">
-                  <span>EXPERIENCE</span>
-                  <span className="text-ink/65">1 年 · AI 应用</span>
-                </li>
-              </ul>
+              <p className="mt-2 text-[12px] leading-relaxed text-ink/45">
+                临沂 → 杭州 · 本科 · 可入职
+              </p>
               <div className="mt-5 flex flex-wrap items-center gap-4">
                 <a
                   href={`mailto:${contact.email}`}
@@ -131,21 +108,9 @@ export function About() {
               </Reveal>
             </div>
 
-            <Reveal delay={0.12}>
-              <blockquote className="mt-10 border-l border-amber/60 pl-5 sm:pl-7">
-                <p className="serif-en text-[clamp(1.35rem,2.5vw,2rem)] italic leading-[1.35] text-ink/80">
-                  “The part that actually ships — that is the craft.”
-                </p>
-                <footer className="mt-3 font-mono text-[8.5px] uppercase tracking-[0.2em] text-ink/45">
-                  现在我在找一件事：把 AI 真正落到业务里。不是演示，是每天有人用。
-                </footer>
-              </blockquote>
-            </Reveal>
-
             <div className="mt-12">
-              <div className="flex items-baseline justify-between border-b border-ink/15 pb-3">
-                <h3 className="eyebrow text-ink/50">经历 / EXPERIENCE</h3>
-                <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-ink/30">2024 — 2026</span>
+              <div className="border-b border-ink/15 pb-3">
+                <h3 className="eyebrow text-ink/50">经历</h3>
               </div>
 
               <div className="mt-6 flex flex-col">
@@ -156,18 +121,12 @@ export function About() {
                         <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink/40">
                           {job.period}
                         </span>
-                        <span className="ml-auto font-mono text-[8px] text-amber/60 sm:ml-0">
-                          0{index + 1}
-                        </span>
                       </div>
                       <div>
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <h4 className="display text-xl leading-none text-ink sm:text-2xl">{job.company}</h4>
                           <span className="text-[12px] text-ink/55">{job.role}</span>
                         </div>
-                        <p className="mt-1.5 font-mono text-[8.5px] uppercase tracking-[0.12em] text-ink/40">
-                          {job.note}
-                        </p>
                         <ul className="mt-3 flex flex-col gap-1.5">
                           {job.bullets.map((bullet) => (
                             <li key={bullet} className="flex gap-2.5 text-[12.5px] leading-relaxed text-ink/60">
@@ -201,9 +160,8 @@ export function About() {
             </div>
 
             <div className="mt-12">
-              <div className="flex items-baseline justify-between border-b border-ink/15 pb-3">
-                <h3 className="eyebrow text-ink/50">技能 / STACK</h3>
-                <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-ink/30">TOOLS & CRAFT</span>
+              <div className="border-b border-ink/15 pb-3">
+                <h3 className="eyebrow text-ink/50">技能</h3>
               </div>
               <div className="mt-6 grid gap-6 sm:grid-cols-2">
                 {skillGroups.map((group, index) => (
@@ -229,8 +187,7 @@ export function About() {
             <Reveal>
               <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-ink/12 pt-5">
                 <p className="max-w-[42ch] text-[12.5px] leading-relaxed text-ink/55">
-                  如果你在找一个既懂模型、又懂内容，还能把它部署到同事电脑上的人，
-                  我们大概应该聊聊。
+                  找一个既懂模型、又懂内容，还能把它部署到同事电脑上的人？聊聊。
                 </p>
                 <a
                   href={`mailto:${contact.email}`}

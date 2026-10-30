@@ -68,13 +68,11 @@ export function Pipeline() {
         }}
       />
       <div className="container-x relative">
-        <div className="flex items-center justify-between border-b border-ink/15 pb-4">
+        <div className="flex items-center border-b border-ink/15 pb-4">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 rounded-full bg-amber" />
-            03 / PIPELINE
+            产线
           </span>
-          <span className="eyebrow hidden text-ink/40 sm:block">一条能复用的产线</span>
-          <span className="eyebrow text-ink/40">06 STEPS</span>
         </div>
 
         <div className="mt-12 grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
@@ -93,8 +91,7 @@ export function Pipeline() {
             />
             <Reveal delay={0.15}>
               <p className="mt-6 max-w-[46ch] text-[13px] leading-[1.95] text-ink/60 sm:text-[13.5px]">
-                这不是一个灵感合集，是一条被跑过很多次的产线：剧本有模板，生成有队列，
-                配音有音色库，字幕有对齐，最后按项目分目录交付。五个项目，共用同一套方法。
+                剧本有模板，生成有队列，配音有音色库，字幕有对齐，最后按项目交付。
               </p>
             </Reveal>
 
@@ -104,13 +101,9 @@ export function Pipeline() {
                   <div className="flex items-center justify-between border-b border-cream/10 px-4 py-2.5">
                     <div className="flex items-center gap-2">
                       <Terminal size={11} strokeWidth={1.4} className="text-amber" />
-                      <span className="font-mono text-[9px] tracking-[0.14em] text-cream/45">dara-studio — zsh</span>
+                      <span className="font-mono text-[9px] tracking-[0.14em] text-cream/45">dara-studio</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-cream/15" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-cream/15" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber/70" />
-                    </div>
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber/70" />
                   </div>
                   <div className="px-4 py-4 font-mono text-[10.5px] leading-[1.9] sm:text-[11.5px]">
                     <p className="text-amber-soft">
@@ -140,10 +133,6 @@ export function Pipeline() {
                       </p>
                     )}
                   </div>
-                </div>
-                <div className="mt-3 flex items-center justify-between font-mono text-[8px] uppercase tracking-[0.18em] text-ink/40">
-                  <span>9:16 / 16:9 · BATCH QUEUE</span>
-                  <span>REAL LOG · 2026</span>
                 </div>
               </div>
             </Reveal>
@@ -188,21 +177,10 @@ export function Pipeline() {
                             {step.title}
                           </h3>
                         </div>
-                        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-ink/35">{step.en}</span>
                       </div>
                       <p className="mt-3 max-w-[52ch] text-[12.5px] leading-[1.85] text-ink/65 sm:text-[13px]">
                         {step.desc}
                       </p>
-                      <div className="mt-3.5 flex flex-wrap gap-1.5">
-                        {step.tools.map((tool) => (
-                          <span
-                            key={tool}
-                            className="border border-ink/20 px-2 py-[3px] font-mono text-[8px] uppercase tracking-[0.1em] text-ink/60"
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
                     </div>
                   </div>
                 )
@@ -213,9 +191,9 @@ export function Pipeline() {
               <button
                 type="button"
                 onClick={() => scrollToId('works')}
-                className="group mt-2 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-ink/50 transition-colors hover:text-ink"
+                className="group mt-2 flex items-center gap-3 text-[12px] text-ink/50 transition-colors hover:text-ink"
               >
-                回到五个项目
+                回到项目
                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-ink/20 transition-colors group-hover:border-amber group-hover:text-amber">
                   <ArrowUp size={13} strokeWidth={1.4} />
                 </span>

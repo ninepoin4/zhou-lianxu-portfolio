@@ -146,7 +146,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
       <div className="relative z-10 flex items-center justify-between border-b border-cream/10 px-5 py-4 sm:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.2em] text-amber">
-            {item.index === '00' ? 'SHOWREEL' : `CASE ${item.index} / 05`}
+            {item.index === '00' ? 'SHOWREEL' : item.sample ? '示例成片' : `${item.index} / 05`}
           </span>
           <span className="hidden h-3 w-px shrink-0 bg-cream/15 sm:block" />
           <span className="truncate text-[12px] text-cream/65">{item.title}</span>
@@ -290,10 +290,6 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
                     </button>
                   </div>
 
-                  <div className="mt-1 flex w-full max-w-[760px] items-center justify-between font-mono text-[7.5px] uppercase tracking-[0.14em] text-cream/25">
-                    <span>默认静音 · 预览为节选</span>
-                    <span className="hidden sm:inline">CLICK VIDEO TO PAUSE</span>
-                  </div>
                 </div>
               ) : (
                 <img
@@ -305,17 +301,10 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
             </motion.div>
           </AnimatePresence>
 
-          {item.mediaType !== 'video' && (
-            <div className="pointer-events-none absolute bottom-4 left-4 hidden items-center gap-2 rounded-full bg-ink/80 px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.14em] text-cream/55 backdrop-blur-sm sm:bottom-6 sm:left-6 sm:flex">
-              <Maximize2 size={10} strokeWidth={1.4} />
-              静态案例 · 全幅版面
-            </div>
-          )}
         </div>
 
         <div className="border-t border-cream/10 px-5 py-6 sm:px-8 lg:overflow-y-auto lg:border-l lg:border-t-0 lg:py-8">
-          <span className="eyebrow text-amber">{item.en}</span>
-          <h3 className="display mt-4 text-[clamp(1.9rem,3.2vw,2.8rem)] leading-[1.04] text-cream">
+          <h3 className="display text-[clamp(1.9rem,3.2vw,2.8rem)] leading-[1.04] text-cream">
             {item.title}
             <span className="text-amber">.</span>
           </h3>
@@ -327,7 +316,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
                 <p className="display whitespace-nowrap text-[clamp(1.05rem,1.8vw,1.45rem)] leading-none text-cream">
                   {metric.value}
                 </p>
-                <p className="mt-2 font-mono text-[7.5px] uppercase leading-[1.5] tracking-[0.12em] text-cream/35">
+                <p className="mt-2 text-[10px] leading-[1.5] tracking-[0.06em] text-cream/40">
                   {metric.label}
                 </p>
               </div>
@@ -358,7 +347,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
           ) : null}
 
           <div className="mt-7">
-            <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">DELIVERABLES</p>
+            <p className="text-[10px] tracking-[0.08em] text-cream/35">交付</p>
             <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
               {item.deliverables.map((deliverable, deliverableIndex) => (
                 <li key={deliverable} className="flex items-start gap-2.5 text-[11.5px] leading-[1.5] text-cream/60">
@@ -384,11 +373,11 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
 
           <div className="mt-7 grid grid-cols-2 gap-4 border-t border-cream/12 pt-4">
             <div>
-              <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">ROLE</p>
+              <p className="text-[10px] tracking-[0.08em] text-cream/35">角色</p>
               <p className="mt-2 text-[11.5px] leading-[1.7] text-cream/60">{item.role.join(' · ')}</p>
             </div>
             <div>
-              <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">TOOLS</p>
+              <p className="text-[10px] tracking-[0.08em] text-cream/35">工具</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {item.tools.map((tool) => (
                   <span
@@ -402,51 +391,6 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
             </div>
           </div>
 
-          <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-cream/12 pt-4">
-            <div>
-              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">YEAR</dt>
-              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.year}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">LENGTH</dt>
-              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.duration}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">RATIO</dt>
-              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.ratio}</dd>
-            </div>
-          </dl>
-
-          {items.length > 1 && (
-            <div className="mt-7 flex gap-3">
-              <button
-                type="button"
-                onClick={prev}
-                className="group flex flex-1 items-center justify-between border border-cream/15 px-3 py-3 text-left transition-colors hover:border-cream/40"
-              >
-                <span className="flex items-center gap-2 text-[10px] text-cream/50">
-                  <ArrowLeft size={12} strokeWidth={1.4} />
-                  上一个
-                </span>
-                <span className="max-w-[7rem] truncate font-mono text-[8px] uppercase tracking-[0.1em] text-cream/35">
-                  {items[(index - 1 + items.length) % items.length].title}
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={next}
-                className="group flex flex-1 items-center justify-between border border-cream/15 px-3 py-3 text-left transition-colors hover:border-cream/40"
-              >
-                <span className="flex items-center gap-2 text-[10px] text-cream/50">
-                  下一个
-                  <ArrowRight size={12} strokeWidth={1.4} />
-                </span>
-                <span className="max-w-[7rem] truncate font-mono text-[8px] uppercase tracking-[0.1em] text-cream/35">
-                  {items[(index + 1) % items.length].title}
-                </span>
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </motion.div>

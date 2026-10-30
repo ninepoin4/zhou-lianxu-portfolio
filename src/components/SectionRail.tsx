@@ -60,7 +60,7 @@ export function SectionRail() {
                 isActive ? 'max-w-[90px] text-ink/60 opacity-100' : 'max-w-0 text-ink/40 opacity-0 group-hover:max-w-[90px] group-hover:opacity-100'
               }`}
             >
-              {section.index} · {section.label}
+              {section.label}
             </span>
           </button>
         )
