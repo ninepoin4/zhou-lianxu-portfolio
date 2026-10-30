@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { ArrowLeft, ArrowRight, Volume2, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
 import { setScrollLocked } from '../lib/scroll'
 import type { LightboxItem } from './Works'
 
@@ -12,9 +12,13 @@ type Props = {
 
 export function Lightbox({ items, startIndex, onClose }: Props) {
   const [index, setIndex] = useState(startIndex)
-  const [mounted, setMounted] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(true)
+  const [progress, setProgress] = useState(0)
+  const [duration, setDuration] = useState(0)
   const reduced = useReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
+  const mediaRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const previousFocus = useRef<HTMLElement | null>(null)
@@ -26,9 +30,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
     previousFocus.current = document.activeElement as HTMLElement | null
     window.setTimeout(() => closeButtonRef.current?.focus(), 60)
     setScrollLocked(true)
-    const timer = window.setTimeout(() => setMounted(true), 20)
     return () => {
-      window.clearTimeout(timer)
       setScrollLocked(false)
       previousFocus.current?.focus?.()
     }
@@ -40,6 +42,9 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeRef.current()
+      const target = event.target as HTMLElement | null
+      const editing = target?.closest('input, textarea, select')
+      if (editing) return
       if (event.key === 'ArrowRight') next()
       if (event.key === 'ArrowLeft') prev()
       if (event.key === 'Tab' && dialogRef.current) {
@@ -64,11 +69,62 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
 
   useEffect(() => {
     const video = videoRef.current
+    setPlaying(false)
+    setMuted(true)
+    setProgress(0)
+    setDuration(0)
     if (!video) return
     video.currentTime = 0
-    const attempt = video.play()
-    if (attempt && typeof attempt.catch === 'function') attempt.catch(() => undefined)
-  }, [index])
+    if (!reduced) {
+      const attempt = video.play()
+      if (attempt && typeof attempt.then === 'function') {
+        attempt.then(() => setPlaying(true)).catch(() => setPlaying(false))
+      }
+    }
+  }, [index, reduced])
+
+  const togglePlay = () => {
+    const video = videoRef.current
+    if (!video) return
+    if (video.paused) {
+      const attempt = video.play()
+      if (attempt && typeof attempt.then === 'function') attempt.catch(() => undefined)
+    } else {
+      video.pause()
+    }
+  }
+
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = !video.muted
+    setMuted(video.muted)
+  }
+
+  const seek = (value: number) => {
+    const video = videoRef.current
+    if (!video || !Number.isFinite(duration) || duration <= 0) return
+    const next = (value / 1000) * duration
+    video.currentTime = next
+    setProgress(next)
+  }
+
+  const formatTime = (value: number) => {
+    if (!Number.isFinite(value) || value < 0) return '0:00'
+    const minutes = Math.floor(value / 60)
+    const seconds = Math.floor(value % 60).toString().padStart(2, '0')
+    return `${minutes}:${seconds}`
+  }
+
+  const toggleFullscreen = () => {
+    const element = mediaRef.current
+    if (!element) return
+    if (document.fullscreenElement) {
+      void document.exitFullscreen()
+    } else {
+      void element.requestFullscreen?.()
+    }
+  }
 
   if (!item) return null
 
@@ -77,8 +133,8 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={`${item.title} 播放`}
-      className="fixed inset-0 z-[150] flex flex-col bg-ink/95 backdrop-blur-2xl"
+      aria-label={`${item.title} 案例`}
+      className="fixed inset-0 z-[150] flex flex-col bg-[#0b0b09]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -87,22 +143,22 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
         if (event.target === event.currentTarget) onClose()
       }}
     >
-      <div className="flex items-center justify-between border-b border-cream/10 px-5 py-4 sm:px-8">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-cream/35">
-            {item.index ? `FRAME ${item.index}` : 'SHOWREEL'}
+      <div className="relative z-10 flex items-center justify-between border-b border-cream/10 px-5 py-4 sm:px-8">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.2em] text-amber">
+            {item.index === '00' ? 'SHOWREEL' : `CASE ${item.index} / 05`}
           </span>
-          <span className="h-3 w-px bg-cream/15" />
-          <span className="max-w-[40vw] truncate text-[12px] text-cream/70">{item.title}</span>
+          <span className="hidden h-3 w-px shrink-0 bg-cream/15 sm:block" />
+          <span className="truncate text-[12px] text-cream/65">{item.title}</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {items.length > 1 && (
             <div className="mr-2 hidden items-center gap-2 sm:flex">
               <button
                 type="button"
                 onClick={prev}
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/60 transition-colors hover:border-amber hover:text-amber"
-                aria-label="上一个"
+                aria-label="上一个案例"
               >
                 <ArrowLeft size={14} strokeWidth={1.4} />
               </button>
@@ -110,7 +166,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
                 type="button"
                 onClick={next}
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/60 transition-colors hover:border-amber hover:text-amber"
-                aria-label="下一个"
+                aria-label="下一个案例"
               >
                 <ArrowRight size={14} strokeWidth={1.4} />
               </button>
@@ -124,101 +180,245 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
             type="button"
             onClick={onClose}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-cream/20 text-cream/80 transition-colors hover:border-amber hover:text-amber"
-            aria-label="关闭"
+            aria-label="关闭案例"
           >
             <X size={18} strokeWidth={1.3} />
           </button>
         </div>
+        <motion.span
+          className="absolute bottom-0 left-0 h-px bg-amber/70"
+          initial={false}
+          animate={{ width: `${((index + 1) / items.length) * 100}%` }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        />
       </div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[1fr_360px] lg:overflow-hidden">
+      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[1fr_420px] lg:overflow-hidden">
         <div
-          className="relative flex min-h-[32vh] items-center justify-center bg-black/40 p-4 sm:p-8 lg:min-h-0"
+          className="relative flex min-h-[44vh] items-center justify-center overflow-hidden bg-[#0e0e0b] p-4 sm:p-8 lg:min-h-0"
           onClick={(event) => {
             if (event.target === event.currentTarget) onClose()
           }}
         >
+          <span
+            className="pointer-events-none absolute -left-2 top-1/2 -translate-y-1/2 font-serif text-[16rem] leading-none text-cream/[0.035] sm:text-[22rem]"
+            aria-hidden="true"
+          >
+            {item.index}
+          </span>
+
           <AnimatePresence mode="wait">
             <motion.div
-              key={item.id}
-              className="relative flex h-full max-h-[46vh] w-full items-center justify-center lg:max-h-[78vh]"
-              initial={reduced ? undefined : { opacity: 0, scale: 0.985 }}
+              key={item.src}
+              className="relative flex h-full max-h-[62vh] w-full flex-col items-center justify-center lg:max-h-[80vh]"
+              initial={reduced ? undefined : { opacity: 0, scale: 0.988 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.99 }}
+              exit={{ opacity: 0, scale: 0.992 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <video
-                ref={videoRef}
-                key={item.src}
-                src={item.src}
-                poster={item.poster}
-                controls
-                autoPlay={!reduced}
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className={`h-full w-auto max-w-full bg-black object-contain shadow-2xl ${item.ratio === '9:16' ? 'max-h-full' : 'max-h-full'}`}
-              />
+              {item.mediaType === 'video' ? (
+                <div ref={mediaRef} className="flex h-full w-full flex-col items-center justify-center">
+                  <div className="relative flex w-full flex-none items-center justify-center">
+                    <video
+                      ref={videoRef}
+                      key={item.src}
+                      src={item.src}
+                      poster={item.poster}
+                      autoPlay={!reduced}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onClick={togglePlay}
+                      onPlay={() => setPlaying(true)}
+                      onPause={() => setPlaying(false)}
+                      onTimeUpdate={(event) => setProgress(event.currentTarget.currentTime)}
+                      onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+                      onVolumeChange={(event) => setMuted(event.currentTarget.muted)}
+                      className="max-h-[calc(62vh-64px)] max-w-full cursor-pointer bg-black object-contain shadow-2xl lg:max-h-[calc(80vh-64px)]"
+                    />
+                    {!playing && (
+                      <button
+                        type="button"
+                        onClick={togglePlay}
+                        aria-label="播放视频"
+                        className="absolute inset-0 flex items-center justify-center bg-ink/15 transition-colors hover:bg-ink/25"
+                      >
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full border border-cream/20 bg-paper/90 text-ink shadow-[0_18px_45px_-20px_rgba(0,0,0,0.8)]">
+                          <Play size={20} strokeWidth={1.2} fill="currentColor" className="ml-1" />
+                        </span>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="mt-3 flex w-full max-w-[760px] items-center gap-3 border-t border-cream/12 pt-3">
+                    <button
+                      type="button"
+                      onClick={togglePlay}
+                      aria-label={playing ? '暂停视频' : '播放视频'}
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cream/15 text-cream/65 transition-colors hover:border-amber hover:text-amber"
+                    >
+                      {playing ? <Pause size={13} strokeWidth={1.4} /> : <Play size={13} strokeWidth={1.4} className="ml-0.5" />}
+                    </button>
+                    <span className="w-[70px] shrink-0 font-mono text-[9px] tabular-nums tracking-[0.04em] text-cream/40">
+                      {formatTime(progress)} / {formatTime(duration)}
+                    </span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={1000}
+                      value={duration > 0 ? Math.round((progress / duration) * 1000) : 0}
+                      onChange={(event) => seek(Number(event.currentTarget.value))}
+                      aria-label="视频进度"
+                      className="h-1 min-w-0 flex-1 cursor-pointer appearance-none rounded-full bg-cream/20 accent-[#c8763c]"
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleMute}
+                      aria-label={muted ? '打开声音' : '静音'}
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cream/15 text-cream/65 transition-colors hover:border-amber hover:text-amber"
+                    >
+                      {muted ? <VolumeX size={13} strokeWidth={1.4} /> : <Volume2 size={13} strokeWidth={1.4} />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={toggleFullscreen}
+                      aria-label="全屏"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cream/15 text-cream/65 transition-colors hover:border-amber hover:text-amber"
+                    >
+                      <Maximize2 size={12} strokeWidth={1.4} />
+                    </button>
+                  </div>
+
+                  <div className="mt-1 flex w-full max-w-[760px] items-center justify-between font-mono text-[7.5px] uppercase tracking-[0.14em] text-cream/25">
+                    <span>默认静音 · 预览为节选</span>
+                    <span className="hidden sm:inline">CLICK VIDEO TO PAUSE</span>
+                  </div>
+                </div>
+              ) : (
+                <img
+                  src={item.src}
+                  alt={`${item.title} 案例全图`}
+                  className="max-h-full max-w-full object-contain shadow-2xl"
+                />
+              )}
             </motion.div>
           </AnimatePresence>
-          {!mounted && <div className="absolute inset-0 bg-ink" />}
-          <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-ink/70 px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.16em] text-cream/60 backdrop-blur-sm sm:bottom-6 sm:left-6">
-            <Volume2 size={10} strokeWidth={1.4} />
-            默认静音 · 预览为节选 · 右下角开启声音
-          </div>
+
+          {item.mediaType !== 'video' && (
+            <div className="pointer-events-none absolute bottom-4 left-4 hidden items-center gap-2 rounded-full bg-ink/80 px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.14em] text-cream/55 backdrop-blur-sm sm:bottom-6 sm:left-6 sm:flex">
+              <Maximize2 size={10} strokeWidth={1.4} />
+              静态案例 · 全幅版面
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col justify-between border-t border-cream/10 px-5 py-6 sm:px-8 lg:overflow-y-auto lg:border-l lg:border-t-0 lg:py-8">
-          <div>
-            <span className="eyebrow text-amber">{item.en ?? 'SELECTED WORK'}</span>
-            <h3 className="display mt-4 text-[clamp(1.8rem,3.1vw,2.65rem)] leading-[1.08] text-cream">{item.title}</h3>
-            {item.client && <p className="mt-2 text-[13px] text-cream/50">{item.client}</p>}
-            {item.desc && (
-              <p className="mt-6 text-[13px] leading-[1.9] text-cream/65">{item.desc}</p>
-            )}
+        <div className="border-t border-cream/10 px-5 py-6 sm:px-8 lg:overflow-y-auto lg:border-l lg:border-t-0 lg:py-8">
+          <span className="eyebrow text-amber">{item.en}</span>
+          <h3 className="display mt-4 text-[clamp(1.9rem,3.2vw,2.8rem)] leading-[1.04] text-cream">
+            {item.title}
+            <span className="text-amber">.</span>
+          </h3>
+          <p className="mt-2 text-[12.5px] text-cream/45">{item.client}</p>
 
-            <dl className="mt-8 grid grid-cols-3 gap-3 border-y border-cream/12 py-4">
-              <div>
-                <dt className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">YEAR</dt>
-                <dd className="mt-1.5 font-mono text-[11px] text-cream/75">{item.year ?? '2026'}</dd>
+          <div className="mt-6 grid grid-cols-3 gap-3 border-y border-cream/12 py-4">
+            {item.metrics.map((metric) => (
+              <div key={metric.label}>
+                <p className="display whitespace-nowrap text-[clamp(1.05rem,1.8vw,1.45rem)] leading-none text-cream">
+                  {metric.value}
+                </p>
+                <p className="mt-2 font-mono text-[7.5px] uppercase leading-[1.5] tracking-[0.12em] text-cream/35">
+                  {metric.label}
+                </p>
               </div>
-              <div>
-                <dt className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">LENGTH</dt>
-                <dd className="mt-1.5 font-mono text-[11px] text-cream/75">{item.duration ?? '—'}</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">RATIO</dt>
-                <dd className="mt-1.5 font-mono text-[11px] text-cream/75">{item.ratio}</dd>
-              </div>
-            </dl>
-
-            {item.role && item.role.length > 0 && (
-              <div className="mt-6">
-                <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">ROLE</p>
-                <p className="mt-2 text-[12px] leading-relaxed text-cream/60">{item.role.join(' · ')}</p>
-              </div>
-            )}
-
-            {item.tools && item.tools.length > 0 && (
-              <div className="mt-5">
-                <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">TOOLS</p>
-                <div className="mt-2.5 flex flex-wrap gap-1.5">
-                  {item.tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className="border border-cream/15 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-cream/55"
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+            ))}
           </div>
 
+          <p className="mt-6 text-[12.5px] leading-[1.95] text-cream/65">{item.details}</p>
+
+          {item.links?.length ? (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {item.links.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-1.5 border border-cream/20 px-3 py-2 text-[10.5px] text-cream/70 transition-colors hover:border-amber hover:text-amber"
+                >
+                  {link.label}
+                  <ArrowUpRight
+                    size={11}
+                    strokeWidth={1.4}
+                    className="transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </a>
+              ))}
+            </div>
+          ) : null}
+
+          <div className="mt-7">
+            <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">DELIVERABLES</p>
+            <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {item.deliverables.map((deliverable, deliverableIndex) => (
+                <li key={deliverable} className="flex items-start gap-2.5 text-[11.5px] leading-[1.5] text-cream/60">
+                  <span className="pt-px font-mono text-[8px] text-amber/80">
+                    {String(deliverableIndex + 1).padStart(2, '0')}
+                  </span>
+                  {deliverable}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {item.detailImage && (
+            <figure className="mt-7 border border-cream/12">
+              <img src={item.detailImage} alt={`${item.title} 细节`} className="w-full" loading="lazy" />
+              {item.detailCaption && (
+                <figcaption className="border-t border-cream/10 px-3 py-2 font-mono text-[8px] leading-[1.6] tracking-[0.08em] text-cream/35">
+                  {item.detailCaption}
+                </figcaption>
+              )}
+            </figure>
+          )}
+
+          <div className="mt-7 grid grid-cols-2 gap-4 border-t border-cream/12 pt-4">
+            <div>
+              <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">ROLE</p>
+              <p className="mt-2 text-[11.5px] leading-[1.7] text-cream/60">{item.role.join(' · ')}</p>
+            </div>
+            <div>
+              <p className="font-mono text-[8px] uppercase tracking-[0.18em] text-cream/30">TOOLS</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {item.tools.map((tool) => (
+                  <span
+                    key={tool}
+                    className="border border-cream/15 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.08em] text-cream/50"
+                  >
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-cream/12 pt-4">
+            <div>
+              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">YEAR</dt>
+              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.year}</dd>
+            </div>
+            <div>
+              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">LENGTH</dt>
+              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.duration}</dd>
+            </div>
+            <div>
+              <dt className="font-mono text-[7.5px] uppercase tracking-[0.16em] text-cream/25">RATIO</dt>
+              <dd className="mt-1 font-mono text-[10px] text-cream/60">{item.ratio}</dd>
+            </div>
+          </dl>
+
           {items.length > 1 && (
-            <div className="mt-8 flex gap-3">
+            <div className="mt-7 flex gap-3">
               <button
                 type="button"
                 onClick={prev}
@@ -226,7 +426,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
               >
                 <span className="flex items-center gap-2 text-[10px] text-cream/50">
                   <ArrowLeft size={12} strokeWidth={1.4} />
-                  上一部
+                  上一个
                 </span>
                 <span className="max-w-[7rem] truncate font-mono text-[8px] uppercase tracking-[0.1em] text-cream/35">
                   {items[(index - 1 + items.length) % items.length].title}
@@ -238,7 +438,7 @@ export function Lightbox({ items, startIndex, onClose }: Props) {
                 className="group flex flex-1 items-center justify-between border border-cream/15 px-3 py-3 text-left transition-colors hover:border-cream/40"
               >
                 <span className="flex items-center gap-2 text-[10px] text-cream/50">
-                  下一部
+                  下一个
                   <ArrowRight size={12} strokeWidth={1.4} />
                 </span>
                 <span className="max-w-[7rem] truncate font-mono text-[8px] uppercase tracking-[0.1em] text-cream/35">

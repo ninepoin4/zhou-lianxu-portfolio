@@ -11,9 +11,9 @@ import { contact, stats } from '../data/content'
 const base = import.meta.env.BASE_URL
 
 const contactSheet = [
-  { src: `${base}media/clips/w04-putuo.jpg`, label: 'PUTUO' },
-  { src: `${base}media/clips/w02-pearlstory.jpg`, label: 'PEARL' },
-  { src: `${base}media/clips/w05-x9795.jpg`, label: 'X9795' },
+  { src: `${base}media/cases/yinguo-player.png`, label: 'YINGUO' },
+  { src: `${base}media/clips/w02-pearlstory.jpg`, label: 'STUDIO' },
+  { src: `${base}media/clips/w05-x9795.jpg`, label: 'FACTORY' },
 ]
 
 export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => void }) {
@@ -79,7 +79,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             </span>
             <span className="eyebrow whitespace-nowrap text-ink/55">OPEN TO WORK · {contact.city}</span>
           </div>
-          <span className="eyebrow hidden text-ink/35 md:block">35.05°N / 118.35°E</span>
+          <span className="eyebrow hidden text-ink/35 md:block">30.27°N / 120.15°E</span>
           <span className="eyebrow whitespace-nowrap text-ink/45">
             <span className="sm:hidden">2026</span>
             <span className="hidden sm:inline">PORTFOLIO 2024—2026</span>
@@ -96,7 +96,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
               transition={{ duration: 0.9, delay: 0.5 }}
             >
               <DotsMark size={14} className="text-ink/80" />
-              <span className="eyebrow text-ink/55">AI 影像 / 工作流 / 部署</span>
+              <span className="eyebrow text-ink/55">SELECTED 05 / AI 影像 · 工作流 · 部署</span>
             </motion.div>
 
             <MaskLines
@@ -127,8 +127,8 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                 animate={ready ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: 1, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
               >
-                我是周连旭。用 ComfyUI、Wan、HyperFrames 和一点偏执，把想法变成能交付的片子；
-                也把重复劳动，改写成可以复用的系统。
+                我是周连旭。用 Wan 3.0、HyperFrames、FastAPI 和一点偏执，把一句话变成能交付的片子；
+                也把<span className="whitespace-nowrap">重复劳动</span>，改写成可以复用的系统。五个项目，是同一条产线的五个出口。
               </motion.p>
 
               <motion.div
@@ -142,9 +142,9 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                     type="button"
                     onClick={() => scrollToId('works')}
                     className="group flex items-center gap-4 bg-ink px-5 py-3.5 text-[13px] tracking-[0.04em] text-cream transition-colors duration-500 hover:bg-amber hover:text-ink"
-                    data-cursor-label="看片"
+                    data-cursor-label="看项目"
                   >
-                    看片目
+                    看 5 个项目
                     <ArrowDown size={15} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-y-1" />
                   </button>
                 </Magnetic>
@@ -181,7 +181,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             style={{ y: windowY }}
           >
             <div className="hidden w-full items-center justify-between pb-3 font-mono text-[8.5px] uppercase tracking-[0.24em] text-ink/35 lg:flex">
-              <span>SHOWREEL / NOW LOOPING</span>
+              <span>SELECTED 05 / NOW LOOPING</span>
               <span>09 : 16</span>
             </div>
 
@@ -250,7 +250,7 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
                     </div>
                     <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
                       <div className="flex flex-col gap-1 font-mono text-[7.5px] uppercase tracking-[0.18em] text-cream/65">
-                        <span>YJ6976001 / 360° ORBIT</span>
+                        <span>DARA / 360° ORBIT</span>
                         <span className="text-cream/40">9:16 · SILENT · LOOP</span>
                       </div>
                       <span className="font-mono text-[7.5px] text-cream/50">30FPS</span>
@@ -322,10 +322,11 @@ export function Hero({ ready, onPlayReel }: { ready: boolean; onPlayReel: () => 
             <div key={group} className="flex shrink-0 items-center" aria-hidden={group === 1}>
               {[
                 'OPEN TO WORK',
-                'AI 产品 / 工作流 / 部署',
+                'AI 影像 / 工作流 / 部署',
                 '杭州 · 一周内到岗',
-                '400 万+ 播放',
-                '200% 出图提效',
+                '5 个精选项目',
+                '196 条自测断言',
+                '5 种互动节点',
                 '把 AI 做成一条生产线',
               ].map((item) => (
                 <span

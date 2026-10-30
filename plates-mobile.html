@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face{font-family:'NSerif';src:url('/public/fonts/noto-serif-sc-subset.woff2') format('woff2');font-weight:200 900;font-display:block}
+  @font-face{font-family:'NSans';src:url('/public/fonts/noto-sans-sc-subset.woff2') format('woff2');font-weight:100 900;font-display:block}
+  @font-face{font-family:'ISerif';src:url('/public/fonts/instrument-serif-regular.woff2') format('woff2');font-weight:400;font-display:block}
+  @font-face{font-family:'ISerif';src:url('/public/fonts/instrument-serif-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
+  @font-face{font-family:'DMono';src:url('/public/fonts/dm-mono-400.woff2') format('woff2');font-weight:400;font-display:block}
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--paper:#e9e6dd;--ink:#16150f;--amber:#c8763c;--line:rgba(22,21,15,.16);--muted:rgba(22,21,15,.55)}
+  body{background:#ccc;font-family:'NSans','PingFang SC',sans-serif;color:var(--ink)}
+  .plate{position:relative;width:1000px;height:1250px;overflow:hidden;background:var(--paper);isolation:isolate}
+  .plate:before{content:'';position:absolute;inset:0;z-index:0;opacity:.55;background-image:linear-gradient(to right,rgba(22,21,15,.055) 1px,transparent 1px),linear-gradient(to bottom,rgba(22,21,15,.055) 1px,transparent 1px);background-size:80px 80px}
+  .plate:after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(70% 50% at 80% 14%,rgba(200,118,60,.12),transparent 64%),radial-gradient(50% 40% at 4% 96%,rgba(120,140,110,.1),transparent 70%)}
+  .layer{position:absolute;inset:0;z-index:2}
+  .mono{font-family:'DMono','NSans',monospace;letter-spacing:.15em;text-transform:uppercase}
+  .tag{position:absolute;left:64px;top:60px;font-size:14px;color:var(--muted)}
+  .tag .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:9px;vertical-align:2px}
+  .year{position:absolute;right:64px;top:60px;font-size:13px;color:var(--muted)}
+  .rule{position:absolute;left:64px;right:64px;top:96px;height:1px;background:var(--line)}
+  .index{position:absolute;right:44px;top:106px;font-family:'ISerif',serif;font-size:220px;line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(22,21,15,.12)}
+  .title{position:absolute;left:64px;top:152px;font-family:'NSerif','Songti SC',serif;font-weight:300;font-size:92px;line-height:.88;letter-spacing:-.045em}
+  .title em{display:block;font-family:'ISerif',serif;font-style:italic;font-size:104px;letter-spacing:-.02em;line-height:.86;margin-top:4px}
+  .sub{position:absolute;left:66px;top:382px;font-size:23px;letter-spacing:.02em}
+  .lede{position:absolute;left:66px;top:430px;width:430px;font-size:16px;line-height:1.75;color:rgba(22,21,15,.62)}
+  .flow{position:absolute;left:66px;top:580px;width:360px;display:flex;flex-direction:column}
+  .flow .node{display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--line);padding:11px 0}
+  .flow .node:before{content:'';width:6px;height:6px;border-radius:50%;background:var(--amber);flex:none;transform:translateY(-2px)}
+  .flow b{font-family:'DMono',monospace;font-size:12px;letter-spacing:.1em;font-weight:400;width:78px;flex:none}
+  .flow span{font-size:14px;color:var(--muted)}
+  .phone{position:absolute;right:74px;top:196px;width:336px;height:598px;background:#0c0c0a;padding:11px;box-shadow:0 40px 70px -38px rgba(30,22,14,.7);transform:rotate(2.2deg)}
+  .phone .screen{position:relative;width:100%;height:100%;overflow:hidden;background:#111}
+  .phone img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.82) contrast(1.04)}
+  .phone .hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;font-family:'DMono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(239,238,233,.72)}
+  .phone .hud b{color:var(--amber);font-weight:400}
+  .phone .foot{position:absolute;left:12px;right:12px;bottom:12px;font-family:'DMono',monospace;font-size:9px;letter-spacing:.13em;color:rgba(239,238,233,.62);display:flex;justify-content:space-between}
+  .prompt{position:absolute;right:44px;top:780px;width:370px;background:#f2efe7;border:1px solid var(--line);padding:16px 18px;box-shadow:0 24px 40px -30px rgba(30,22,14,.55);z-index:4;transform:rotate(-1deg)}
+  .prompt .row{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:10px}
+  .prompt .row b{font-size:17px;font-weight:400}
+  .prompt .row span{font-family:'DMono',monospace;font-size:8px;letter-spacing:.12em;color:var(--muted)}
+  .prompt p{font-size:13px;line-height:1.55;color:rgba(22,21,15,.72)}
+  .prompt .btn{display:inline-block;margin-top:10px;background:var(--ink);color:#f2efe7;padding:6px 12px;font-size:11px;letter-spacing:.06em}
+  .metrics{position:absolute;left:66px;bottom:58px;display:flex;gap:42px;align-items:flex-end}
+  .metric b{display:block;font-family:'NSerif',serif;font-weight:300;font-size:46px;line-height:1;letter-spacing:-.03em}
+  .metric span{display:block;margin-top:7px;font-family:'DMono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .foot{position:absolute;right:66px;bottom:60px;text-align:right;font-family:'DMono',monospace;font-size:10px;letter-spacing:.13em;color:var(--muted);line-height:1.9}
+  .cap{position:absolute;right:74px;top:812px;font-family:'DMono',monospace;font-size:9px;letter-spacing:.12em;color:var(--muted);transform:rotate(2.2deg)}
+
+  .m-yinguo .title{top:142px;font-size:96px;line-height:.9}
+  .m-yinguo .en{position:absolute;left:68px;top:330px;font-family:'ISerif',serif;font-style:italic;font-size:42px;color:rgba(22,21,15,.74)}
+  .m-yinguo .lede{top:392px;width:820px;font-size:19px;line-height:1.7}
+  .m-yinguo .shot{position:absolute;left:64px;right:64px;top:525px;height:500px;background:#0e0e0c;padding:10px;box-shadow:0 34px 54px -36px rgba(30,22,14,.65)}
+  .m-yinguo .shot .bar{height:34px;display:flex;align-items:center;justify-content:space-between;background:#12120f;padding:0 14px;font-family:'DMono',monospace;font-size:9px;letter-spacing:.12em;color:rgba(239,238,233,.42)}
+  .m-yinguo .shot .dots{display:flex;gap:5px}
+  .m-yinguo .shot .dots i{width:6px;height:6px;border-radius:50%;background:rgba(239,238,233,.2)}
+  .m-yinguo .shot .dots i:nth-child(3){background:var(--amber)}
+  .m-yinguo .shot img{width:100%;height:calc(100% - 34px);object-fit:cover;object-position:top left;display:block}
+  .m-yinguo .metrics{bottom:70px;gap:40px}
+  .m-yinguo .metric b{font-size:42px}
+  .m-yinguo .foot{bottom:72px}
+
+  .m-social .title{top:140px;font-size:104px;line-height:.92}
+  .m-social .en{position:absolute;left:70px;top:350px;font-family:'ISerif',serif;font-style:italic;font-size:44px;color:rgba(22,21,15,.72)}
+  .m-social .lede{top:410px;width:820px;font-size:20px;line-height:1.7}
+  .m-social .board{position:absolute;left:64px;right:64px;top:510px;height:430px;background:#12120f;color:#f2efe7;padding:38px 42px;display:flex;box-shadow:0 40px 64px -40px rgba(30,22,14,.6);transform:rotate(-.7deg)}
+  .m-social .half{flex:1;display:flex;flex-direction:column;min-width:0}
+  .m-social .half + .half{border-left:1px solid rgba(239,238,233,.18);padding-left:34px;margin-left:34px}
+  .m-social .top{display:flex;justify-content:space-between;align-items:center;font-family:'DMono',monospace;font-size:11px;letter-spacing:.09em;color:rgba(239,238,233,.5)}
+  .m-social .dot{width:9px;height:9px;border-radius:50%;background:#6aa7d9}
+  .m-social .half:nth-child(2) .dot{background:#e15a86}
+  .m-social .name{font-family:'NSerif',serif;font-size:32px;font-weight:300;margin-top:26px;letter-spacing:-.02em}
+  .m-social .stat{display:flex;align-items:flex-start;gap:7px;margin-top:10px;font-family:'NSerif',serif;font-size:100px;font-weight:300;line-height:.8;letter-spacing:-.06em}
+  .m-social .stat i{font-family:'DMono',monospace;font-style:normal;font-size:21px;letter-spacing:0;margin-top:9px;color:#d8a26f}
+  .m-social .half:nth-child(2) .stat i{color:var(--amber)}
+  .m-social .label{font-family:'DMono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(239,238,233,.42);margin-top:14px}
+  .m-social .note{margin-top:auto;font-size:14px;line-height:1.6;color:rgba(239,238,233,.58)}
+  .m-social .metrics{left:70px;bottom:88px;gap:48px}
+  .m-social .metric b{font-size:38px}
+  .m-social .foot{right:66px;bottom:90px}
+</style>
+</head>
+<body>
+<section class="plate m-yinguo" id="mobile-yinguo">
+  <div class="layer">
+    <div class="tag mono"><span class="dot"></span>01 / INTERACTIVE</div>
+    <div class="year mono">LOCAL · 2026</div>
+    <div class="rule"></div>
+    <div class="index">01</div>
+
+    <h1 class="title">影游<br>工坊</h1>
+    <div class="en">YINGUO STUDIO</div>
+    <p class="lede">把 AIGC 视频编排成一部可玩的互动影游。视频、台词、分支与变量，在结构图里搭完，一键导出离线网页。</p>
+
+    <div class="shot">
+      <div class="bar"><span>YINGUO.LOCAL / STRUCTURE</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <img src="/public/media/cases/yinguo-graph.png" alt="">
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><b>5 种</b><span>互动节点</span></div>
+      <div class="metric"><b>196 条</b><span>自测断言</span></div>
+      <div class="metric"><b>0</b><span>网络依赖</span></div>
+    </div>
+    <div class="foot">ZHOU LIANXU<br>YINGUO STUDIO / 2026</div>
+  </div>
+</section>
+
+<section class="plate" id="mobile-studio">
+  <div class="layer">
+    <div class="tag mono"><span class="dot"></span>02 / WORKBENCH</div>
+    <div class="year mono">LOCAL · 2026</div>
+    <div class="rule"></div>
+    <div class="index">02</div>
+
+    <h1 class="title">DARA<em>Studio</em></h1>
+    <div class="sub">本地短剧视频工作台</div>
+    <p class="lede">商品简报、剧本、人物与产品参考，接到 Wan 3.0、ASR 字幕、配乐与成片。本地单用户，可独立部署。</p>
+
+    <div class="flow">
+      <div class="node"><b>BRIEF</b><span>货号 · 人群 · 卖点</span></div>
+      <div class="node"><b>SCRIPT</b><span>25s 人味对白</span></div>
+      <div class="node"><b>REFS</b><span>人物 / 产品 / 场景</span></div>
+      <div class="node"><b>WAN 3.0</b><span>生成任务</span></div>
+      <div class="node"><b>ASR</b><span>逐字字幕</span></div>
+    </div>
+
+    <div class="phone">
+      <div class="screen">
+        <img src="/public/media/clips/w02-pearlstory.jpg" alt="">
+        <div class="hud"><span><b>●</b> REC</span><span>00:00:18:12</span></div>
+        <div class="foot"><span>OUTPUT / 9:16</span><span>30FPS</span></div>
+      </div>
+    </div>
+    <div class="cap">PEARL STORY / 2026</div>
+
+    <div class="prompt">
+      <div class="row"><b>一句话开拍</b><span>NATURAL LANGUAGE → JOB</span></div>
+      <p>用 KH1466001，模特是舒醒，出 25 秒中文口播。</p>
+      <span class="btn">开始生成</span>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><b>5 类</b><span>素材库</span></div>
+      <div class="metric"><b>6 类</b><span>商品模板</span></div>
+      <div class="metric"><b>1 句</b><span>一句话开拍</span></div>
+    </div>
+    <div class="foot">ZHOU LIANXU<br>DARA STUDIO / 2026</div>
+  </div>
+</section>
+
+<section class="plate m-social" id="mobile-social">
+  <div class="layer">
+    <div class="tag mono"><span class="dot"></span>04 / OWNED MEDIA</div>
+    <div class="year mono">2026</div>
+    <div class="rule"></div>
+
+    <h1 class="title">自媒体<br>矩阵</h1>
+    <div class="en">Owned media, owned voice.</div>
+    <p class="lede">B 站 AI 听书 300 万+ 播放；小红书 AI 资讯百万级浏览。选题、脚本、剪辑、封面与发布，一条内容线自己跑完。</p>
+
+    <div class="board">
+      <div class="half">
+        <div class="top"><span>BILIBILI / 哔哩哔哩</span><span class="dot"></span></div>
+        <div class="name">AI 听书</div>
+        <div class="stat">300<i>万+</i></div>
+        <div class="label">累计播放</div>
+        <div class="note">频道主理<br>选题 / 剪辑 / 发布</div>
+      </div>
+      <div class="half">
+        <div class="top"><span>XIAOHONGSHU / 小红书</span><span class="dot"></span></div>
+        <div class="name">AI 资讯</div>
+        <div class="stat">百万<i>级</i></div>
+        <div class="label">内容浏览</div>
+        <div class="note">资讯号主理<br>图文 / 选题 / 发布</div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><b>300 万+</b><span>B 站播放</span></div>
+      <div class="metric"><b>百万级</b><span>小红书浏览</span></div>
+    </div>
+    <div class="foot">ZHOU LIANXU<br>OWNED MEDIA / 2026</div>
+  </div>
+</section>
+</body>
+</html>

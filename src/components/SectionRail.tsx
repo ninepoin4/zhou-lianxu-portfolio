@@ -4,11 +4,10 @@ import { useActiveSection } from '../lib/useActiveSection'
 
 const sections = [
   { id: 'top', index: '00', label: '序' },
-  { id: 'works', index: '01', label: '片目' },
+  { id: 'works', index: '01', label: '项目' },
   { id: 'pipeline', index: '02', label: '生产线' },
-  { id: 'systems', index: '03', label: '系统' },
-  { id: 'about', index: '04', label: '关于' },
-  { id: 'contact', index: '05', label: '联系' },
+  { id: 'about', index: '03', label: '关于' },
+  { id: 'contact', index: '04', label: '联系' },
 ]
 
 export function ScrollProgress() {

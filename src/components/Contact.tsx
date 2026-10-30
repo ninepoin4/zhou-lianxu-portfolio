@@ -70,7 +70,7 @@ export function Contact() {
         <div className="flex items-center justify-between border-b border-ink/15 pb-4">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 animate-pulse rounded-full bg-amber" />
-            06 / CONTACT
+            05 / CONTACT
           </span>
           <span className="eyebrow hidden text-ink/40 sm:block">目前可接洽</span>
           <span className="eyebrow text-ink/40">{clock} · GMT+8</span>
@@ -91,8 +91,9 @@ export function Contact() {
 
             <Reveal delay={0.12}>
               <p className="mt-6 max-w-[44ch] text-[13px] leading-[1.95] text-ink/60 sm:text-[13.5px]">
-                正在寻找 AI 产品 / AI 工作流 / AI 部署 方向的岗位。杭州，一周内到岗。
-                也欢迎直接丢一个难做的题目过来。
+                正在寻找 AI 影像 / 工作流 / 部署 方向的岗位。
+                <br />
+                杭州，一周内到岗。也欢迎丢来难做的题目。
               </p>
             </Reveal>
 
@@ -177,6 +178,19 @@ export function Contact() {
                   <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-ink/40">ELSEWHERE</p>
                   <span className="font-mono text-[8px] text-ink/30">2026</span>
                 </div>
+                <a
+                  href={`${base}room/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group mt-3 flex items-center justify-between border-b border-ink/12 pb-3"
+                  data-cursor-label="走进"
+                >
+                  <span className="flex items-baseline gap-2">
+                    <span className="text-[12.5px] text-ink/70 transition-colors group-hover:text-ink">方块房间</span>
+                    <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-ink/40">3D / FIVE ROOMS</span>
+                  </span>
+                  <ArrowUpRight size={13} strokeWidth={1.4} className="text-ink/30 transition-colors group-hover:text-amber" />
+                </a>
                 <a
                   href={contact.siteUrl}
                   target="_blank"

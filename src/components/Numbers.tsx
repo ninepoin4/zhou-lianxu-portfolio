@@ -10,7 +10,7 @@ export function Numbers() {
         className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-serif text-[34vw] leading-none text-transparent opacity-60"
         style={{ WebkitTextStroke: '1px rgba(11,11,10,0.07)' }}
       >
-        09
+        05
       </div>
 
       <div className="container-x relative">

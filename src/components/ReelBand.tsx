@@ -29,7 +29,7 @@ export function ReelBand({ onPlayReel }: { onPlayReel: () => void }) {
             <span className="h-1 w-1 rounded-full bg-amber" />
             REEL / 2024—2026
           </span>
-          <span className="eyebrow hidden text-ink/55 sm:block">8 FILMS · 25 SECONDS</span>
+          <span className="eyebrow hidden text-ink/55 sm:block">5 PROJECTS · 25 SECONDS</span>
         </div>
 
         <div className="flex items-end justify-between gap-8">
@@ -37,10 +37,10 @@ export function ReelBand({ onPlayReel }: { onPlayReel: () => void }) {
             <h2 className="display text-[clamp(1.9rem,3.9vw,3.6rem)] leading-[1.05] text-ink">
               25 秒，
               <br />
-              看 8 部片。
+              看 5 个项目。
             </h2>
             <p className="mt-4 max-w-[34ch] text-[12.5px] leading-relaxed text-ink/55">
-              建议开启声音。剪这一段的时候，我才发现这些片子其实在同一条线上。
+              建议开启声音。五个项目，五种内容，一条产线。
             </p>
           </div>
 

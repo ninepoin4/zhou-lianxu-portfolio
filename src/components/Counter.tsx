@@ -16,6 +16,7 @@ export function Counter({ value, suffix = '', duration = 1.8, className = '', su
   const inView = useInView(ref, { once: true, margin: '-12% 0px' })
   const reduced = useReducedMotion()
   const [display, setDisplay] = useState(0)
+  const decimals = Number.isInteger(value) ? 0 : 2
 
   useEffect(() => {
     if (!inView) return
@@ -27,7 +28,8 @@ export function Counter({ value, suffix = '', duration = 1.8, className = '', su
     const start = performance.now()
     const tick = (now: number) => {
       const progress = Math.min(1, (now - start) / (duration * 1000))
-      setDisplay(Math.round(easeOutExpo(progress) * value))
+      const next = easeOutExpo(progress) * value
+      setDisplay(decimals ? Number(next.toFixed(decimals)) : Math.round(next))
       if (progress < 1) frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
@@ -36,7 +38,7 @@ export function Counter({ value, suffix = '', duration = 1.8, className = '', su
 
   return (
     <span ref={ref} className={className}>
-      {display.toLocaleString('en-US')}
+      {decimals ? display.toFixed(decimals) : display.toLocaleString('en-US')}
       <span className={suffixClassName}>{suffix}</span>
     </span>
   )

@@ -12,7 +12,7 @@ export function About() {
         <div className="flex items-center justify-between border-b border-ink/15 pb-4">
           <span className="eyebrow flex items-center gap-2 text-amber">
             <span className="h-1 w-1 rounded-full bg-amber" />
-            05 / ABOUT
+            04 / ABOUT
           </span>
           <span className="eyebrow hidden text-ink/40 sm:block">技术是我的手，叙事是我的眼</span>
           <span className="eyebrow text-ink/40">周连旭 / ZHOU LIANXU</span>
@@ -21,12 +21,12 @@ export function About() {
         <div className="mt-12 grid gap-12 lg:grid-cols-[350px_1fr] lg:gap-20">
           <aside className="lg:sticky lg:top-28 lg:h-fit lg:self-start">
             <Reveal>
-              <figure className="group relative">
+              <figure className="group relative max-w-[200px]">
                 <div className="relative overflow-hidden bg-ink2 ring-1 ring-ink/15">
                   <img
                     src={`${base}media/img/portrait.jpg`}
                     alt="周连旭肖像"
-                    className="aspect-[4/5] w-full object-cover object-top grayscale transition-all duration-[1.2s] ease-soft group-hover:grayscale-0"
+                    className="aspect-square w-full object-cover object-top grayscale transition-all duration-[1.2s] ease-soft group-hover:grayscale-0"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
                   <span className="absolute left-3 top-3 font-mono text-[8px] uppercase tracking-[0.2em] text-cream/50">
@@ -50,7 +50,7 @@ export function About() {
 
             <Reveal delay={0.08}>
               <p className="mt-5 text-[13px] leading-relaxed text-ink/60">
-                AI 产品经理 / 工作流工程师 / 部署
+                AI 影像 / 工作流 / 部署
               </p>
               <ul className="mt-5 flex flex-col gap-2 border-t border-ink/12 pt-4 font-mono text-[9px] uppercase tracking-[0.14em] text-ink/40">
                 <li className="flex justify-between gap-4">
@@ -119,12 +119,14 @@ export function About() {
                   2025 年毕业，学的是营销管理，进的是电商公司 IT 部。不到一年里，
                   我从 0 搭起 ComfyUI 后端与 WebUI 前端，让美工和运营能直接出图；
                   也用 Coze / Dify 把重复的设计流程做成模板。美工部整体提效 200%。
+                  现在，我把这些能力收进 5 个项目：从一套可玩的互动影游工作台，到一套能独立部署的短剧工作台。
                 </p>
               </Reveal>
               <Reveal delay={0.1}>
                 <p>
                   更早之前，我写网文、做电子音乐、运营 B 站和小红书。文字教我节奏，
                   音乐教我情绪，短视频教我如何在三秒内留住一个人。现在，我把它们放进同一套工作流。
+                  影游工坊、Dara Studio、量产矩阵、内容工厂，都是同一个问题的不同答案：怎样让一段内容稳定地被做出来。
                 </p>
               </Reveal>
             </div>

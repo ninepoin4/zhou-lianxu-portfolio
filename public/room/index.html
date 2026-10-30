@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#b9885b">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
+<title>周连旭的方块房间 — 五个项目</title>
+<meta name="description" content="走进周连旭的 Minecraft 风格 3D 房间：影游工坊、Dara Studio、量产矩阵、自媒体矩阵、内容工厂，五个项目挂在同一面墙上。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ninepoin4.github.io/zhou-lianxu-portfolio/room/">
+<meta property="og:title" content="周连旭的方块房间 — 五个项目">
+<meta property="og:description" content="五个项目，一间能走进去的房间。">
+<meta property="og:image" content="https://ninepoin4.github.io/zhou-lianxu-portfolio/room/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="周连旭的 Minecraft 风格 3D 房间，五个项目海报">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="周连旭的方块房间 — 五个项目">
+<meta name="twitter:description" content="五个项目，一间能走进去的房间。">
+<meta name="twitter:image" content="https://ninepoin4.github.io/zhou-lianxu-portfolio/room/assets/og.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="engine/style.css">
+<style>
+  /* This is a personal room, not a stop on the shared Homecraft directory. */
+  .hc-controls { display: none !important; }
+
+  /* The room's own editorial layer, kept in Minecraft GUI colours. */
+  #panel .body.page {
+    width: min(820px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 22px 26px 26px;
+    background: #e6e1d4;
+    box-shadow: 0 0 0 2px #37332b, inset 3px 3px 0 #f4f0e6, inset -3px -3px 0 #bab3a4;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #pages .page .room-kicker,
+  #panel .body.page .room-kicker {
+    margin: 0 0 8px;
+    color: #c8763c;
+    font: 600 11px/1.2 var(--mono, monospace);
+    letter-spacing: .14em;
+  }
+  #pages .page .room-en,
+  #panel .body.page .room-en {
+    margin: 0 0 18px;
+    color: #77736a;
+    font: 11px/1.4 var(--mono, monospace);
+    letter-spacing: .1em;
+  }
+  #pages .page .room-poster,
+  #panel .body.page .room-poster {
+    margin: 0 0 20px;
+    border: 3px solid #2d2a23;
+    background: #171611;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, .16);
+    overflow: hidden;
+  }
+  #pages .page .room-poster img,
+  #panel .body.page .room-poster img {
+    display: block;
+    width: 100%;
+    max-height: 245px;
+    object-fit: cover;
+    object-position: top center;
+    height: auto;
+  }
+  #pages .page .room-metrics,
+  #panel .body.page .room-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin: 0 0 20px;
+    border: 1px solid #2d2a23;
+    background: #2d2a23;
+  }
+  #pages .page .room-metrics div,
+  #panel .body.page .room-metrics div {
+    background: #e6e1d4;
+    padding: 12px 10px;
+  }
+  #pages .page .room-metrics b,
+  #panel .body.page .room-metrics b {
+    display: block;
+    font: 400 24px/1 var(--serif, Georgia, serif);
+    color: #171611;
+    white-space: nowrap;
+  }
+  #pages .page .room-metrics span,
+  #panel .body.page .room-metrics span {
+    display: block;
+    margin-top: 5px;
+    color: #77736a;
+    font: 10px/1.3 var(--mono, monospace);
+    letter-spacing: .08em;
+  }
+  #pages .page .room-actions,
+  #panel .body.page .room-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 2px solid rgba(45, 42, 35, .16);
+  }
+  #pages .page .room-actions .mc-button,
+  #panel .body.page .room-actions .mc-button {
+    margin: 0;
+  }
+  #pages .page .room-note,
+  #panel .body.page .room-note {
+    margin-top: 16px;
+    padding: 11px 13px;
+    border-left: 4px solid #c8763c;
+    background: rgba(200, 118, 60, .08);
+    color: #5b574e;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  #pages .page .room-small,
+  #panel .body.page .room-small {
+    color: #77736a;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  #pages .page .room-links,
+  #panel .body.page .room-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 0;
+  }
+  #pages .page .room-links a,
+  #panel .body.page .room-links a {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    padding: 0 13px;
+    background: #171611;
+    color: #eae4d5;
+    text-decoration: none;
+    font: 600 13px/1 var(--mono, monospace);
+  }
+  #pages .page .room-links a:hover,
+  #panel .body.page .room-links a:hover {
+    background: #c8763c;
+    color: #171611;
+  }
+  #pages .page .room-credit,
+  #panel .body.page .room-credit {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(45, 42, 35, .15);
+    color: #8a857a;
+    font: 10px/1.6 var(--mono, monospace);
+  }
+  @media (max-width: 560px) {
+    #panel .body.page {
+      width: calc(100vw - 24px);
+      padding: 18px 16px 20px;
+    }
+    #pages .page .room-poster img,
+    #panel .body.page .room-poster img { max-height: 210px; }
+    #pages .page .room-metrics b,
+    #panel .body.page .room-metrics b { font-size: 19px; }
+    #pages .page .room-metrics div,
+    #panel .body.page .room-metrics div { padding: 10px 7px; }
+  }
+</style>
+<script type="importmap">{"imports":{
+  "three":"./vendor/three/three.module.min.js",
+  "@engine/":"./engine/",
+  "@world/":"./world/",
+  "@config":"./home.config.js"
+}}</script>
+</head>
+<body>
+<main id="world" aria-label="周连旭的方块房间"></main>
+<div id="loading"><div class="bar"><i></i></div></div>
+
+<section id="pages">
+  <h1 class="plain-title">周连旭的方块房间</h1>
+
+  <article class="page" data-station="about">
+    <h2 data-zh="关于这间房">关于这间房</h2>
+    <p class="room-kicker">ZHOU LIANXU / 3D ROOM · 2026</p>
+    <p>五个项目，挂在同一面墙上。它们不是五个孤立的作品，而是同一条内容生产线的五个切面：互动影游、工作台、量产线、自己的媒体，以及把故事写成人话的内容工厂。</p>
+    <p>这间房是主站旁边的一个入口。你可以走近每一幅画，按 <b>F</b> 或点提示打开案例；也可以回到主站，按顺序读完它们。</p>
+    <div class="room-actions">
+      <a class="mc-button" href="../" target="_top">回到主站</a>
+      <a class="mc-button" href="#links" data-open="links">联系与链接</a>
+    </div>
+    <p class="room-note">操作：WASD / 方向键移动，拖拽鼠标环顾，走近展台按 F；按 V 切换第一 / 第三人称。手机上用左侧摇杆和右侧拖拽。</p>
+    <p class="room-credit">Built on Homecraft (MIT). Room, words and project images by 周连旭.</p>
+  </article>
+
+  <article class="page" data-station="links" data-icon="blog">
+    <h2 data-zh="联系与链接">联系与链接</h2>
+    <p class="room-kicker">ELSEWHERE / 2026</p>
+    <p>如果你是从房间里走进来的，主站里有完整的项目过程、数据和简历。</p>
+    <div class="room-links">
+      <a href="../" target="_top">主站 / PORTFOLIO ↗</a>
+      <a href="https://space.bilibili.com/28594226" target="_blank" rel="noreferrer">B 站 ↗</a>
+      <a href="https://xhslink.cn/o/4wETLUWw4cq" target="_blank" rel="noreferrer">小红书 ↗</a>
+      <a href="mailto:15666835265@163.com">邮件 ↗</a>
+    </div>
+    <p class="room-small">B 站 AI 听书 300 万+ 播放 · 小红书 AI 资讯百万级浏览。<br>杭州 · 可用档期与项目合作，直接来信。</p>
+    <div class="room-actions">
+      <a class="mc-button" href="../#case-social" target="_top">看自媒体矩阵</a>
+      <a class="mc-button" href="../#contact" target="_top">主站联系方式</a>
+    </div>
+  </article>
+
+  <article class="page" data-station="yinguo">
+    <p class="room-kicker">01 / YINGUO STUDIO · 2026</p>
+    <h2 data-zh="影游工坊">影游工坊</h2>
+    <p class="room-en">INTERACTIVE FILM / LOCAL-FIRST / 2026</p>
+    <div class="room-poster"><img src="assets/posters/yinguo.jpg" alt="影游工坊互动影游工作台案例板"></div>
+    <p>把 AIGC 视频编排成一部可玩的互动影游。五种节点搭成结构图，分支条件、倒计时与变量控制剧情；校验器解释规则、测试路径、算覆盖率，导出后就是一个离线可玩的网页。</p>
+    <div class="room-metrics">
+      <div><b>5 种</b><span>互动节点</span></div>
+      <div><b>196 条</b><span>自测断言</span></div>
+      <div><b>0</b><span>网络依赖</span></div>
+    </div>
+    <div class="room-actions"><a class="mc-button" href="../#case-yinguo" target="_top">在主站看完整案例</a></div>
+  </article>
+
+  <article class="page" data-station="studio">
+    <p class="room-kicker">02 / WORKBENCH · 2026</p>
+    <h2 data-zh="Dara Studio">Dara Studio</h2>
+    <p class="room-en">LOCAL SHORT-DRAMA WORKBENCH</p>
+    <div class="room-poster"><img src="assets/posters/studio.jpg" alt="Dara Studio 本地短剧视频工作台案例板"></div>
+    <p>商品简报、剧本、人物与产品参考，接到 Wan 3.0、ASR 字幕、配乐与成片。本地单用户，可独立部署；一句话就能开拍，但每一个环节都留着手改的入口。</p>
+    <div class="room-metrics">
+      <div><b>5 类</b><span>素材库</span></div>
+      <div><b>6 类</b><span>商品模板</span></div>
+      <div><b>1 句</b><span>一句话开拍</span></div>
+    </div>
+    <div class="room-actions"><a class="mc-button" href="../#case-studio" target="_top">在主站看完整案例</a></div>
+  </article>
+
+  <article class="page" data-station="matrix">
+    <p class="room-kicker">03 / MATRIX · 2026</p>
+    <h2 data-zh="量产矩阵">量产矩阵</h2>
+    <p class="room-en">MATRIX / FOUR PRODUCTION LINES</p>
+    <div class="room-poster"><img src="assets/posters/matrix.jpg" alt="量产矩阵，四条 AI 内容生产线案例板"></div>
+    <p>四条 AI 量产线：素材成片、图像成片、素材工厂、字幕对齐。视频混剪从多选素材到 10 环节出片，4 条 28 秒片端到端约 60 秒；图像、补镜与字幕各有自己的入口，最后还能回到人手里改。</p>
+    <div class="room-metrics">
+      <div><b>04 条</b><span>量产线</span></div>
+      <div><b>10 环节</b><span>视频混剪</span></div>
+      <div><b>60s</b><span>端到端 / 28s 片</span></div>
+    </div>
+    <div class="room-actions"><a class="mc-button" href="../#case-matrix" target="_top">在主站看完整案例</a></div>
+  </article>
+
+  <article class="page" data-station="social">
+    <p class="room-kicker">04 / OWNED MEDIA · 2026</p>
+    <h2 data-zh="自媒体矩阵">自媒体矩阵</h2>
+    <p class="room-en">BILIBILI + XIAOHONGSHU / OWNED MEDIA</p>
+    <div class="room-poster"><img src="assets/posters/social.jpg" alt="自媒体矩阵，B 站与小红书数据"></div>
+    <p>B 站 AI 听书 300 万+ 播放，小红书 AI 资讯百万级浏览。选题、标题、脚本、剪辑、封面与发布，一条内容线自己跑完；把 AI 用在批量生产，但先决定什么值得讲。</p>
+    <div class="room-metrics">
+      <div><b>300 万+</b><span>B 站播放</span></div>
+      <div><b>百万级</b><span>小红书浏览</span></div>
+      <div><b>2 个</b><span>内容平台</span></div>
+    </div>
+    <div class="room-links">
+      <a href="https://space.bilibili.com/28594226" target="_blank" rel="noreferrer">B 站频道 ↗</a>
+      <a href="https://xhslink.cn/o/4wETLUWw4cq" target="_blank" rel="noreferrer">小红书主页 ↗</a>
+    </div>
+    <div class="room-actions"><a class="mc-button" href="../#case-social" target="_top">在主站看完整案例</a></div>
+  </article>
+
+  <article class="page" data-station="factory">
+    <p class="room-kicker">05 / CONTENT ENGINE · 2026</p>
+    <h2 data-zh="内容工厂">内容工厂</h2>
+    <p class="room-en">CONTENT ENGINE / STORIES, NOT POSTS</p>
+    <div class="room-poster"><img src="assets/posters/factory.jpg" alt="内容工厂，剧情与种草脚本案例板"></div>
+    <p>100 篇剧情 + 60 篇种草，建立人味对白准则；落到项链、戒指、九款口播、品牌美人片与氛围感卡点，20 多个项目。先写人为什么开口，再写产品。</p>
+    <div class="room-metrics">
+      <div><b>100 篇</b><span>剧情</span></div>
+      <div><b>60 篇</b><span>种草</span></div>
+      <div><b>20+</b><span>项目</span></div>
+    </div>
+    <div class="room-actions"><a class="mc-button" href="../#case-factory" target="_top">在主站看完整案例</a></div>
+  </article>
+
+  <article class="page" id="contact" data-station="contact">
+    <h2 data-zh="联系方式">联系方式</h2>
+    <ul class="contact">
+      <li data-app="email"><span>EMAIL</span><a href="mailto:15666835265@163.com">15666835265@163.com</a><p>项目合作 / 工作机会</p></li>
+      <li data-app="bilibili"><span>B 站</span><a href="https://space.bilibili.com/28594226" target="_blank" rel="noreferrer">AI 听书频道</a><p>300 万+ 播放</p></li>
+      <li data-app="xiaohongshu"><span>小红书</span><a href="https://xhslink.cn/o/4wETLUWw4cq" target="_blank" rel="noreferrer">AI 资讯号</a><p>百万级浏览</p></li>
+      <li data-app="website"><span>主站</span><a href="../" target="_top">周连旭 / 作品集</a><p>五个精选项目</p></li>
+    </ul>
+  </article>
+</section>
+
+<script>
+if (location.protocol === 'file:') {
+  const note = document.createElement('aside');
+  note.id = 'startupNotice';
+  note.innerHTML = '<h2>请用本地服务器打开</h2><p>这个页面需要本地服务器才能加载 3D 房间。直接回到主站，或在项目根目录运行 <code>npm run dev</code>，再打开 <code>/room/</code>。</p>';
+  document.getElementById('pages').before(note);
+  document.getElementById('loading')?.remove();
+  document.body.classList.add('plain');
+}
+</script>
+<noscript><style>#world,#hud,#loading{display:none}#pages{display:block}</style></noscript>
+<script type="module" src="engine/main.js"></script>
+<script type="module">
+  // The opening shot is the only third-person moment: after it, hand the
+  // visitor the camera so the room works as a gallery, not an avatar parade.
+  // Keep checking for a little while: on a slow phone the intro can begin
+  // after the first few seconds, and we must not force the view underneath it.
+  const started = performance.now();
+  let settled = false;
+  function settleView() {
+    const app = window.__home;
+    if (!app?.rig || !app.player) return;
+    if (app.rig.introActive) {
+      if (performance.now() - started > 2800) app.rig.skipIntro();
+      return;
+    }
+    if (!app.rig.firstPerson) app.rig.setFirstPerson(true, app.player.heading);
+    settled = true;
+  }
+  const viewClock = setInterval(() => {
+    if (settled || performance.now() - started > 22000) {
+      clearInterval(viewClock);
+      return;
+    }
+    settleView();
+  }, 400);
+  settleView();
+</script>
+</body>
+</html>

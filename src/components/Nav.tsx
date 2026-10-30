@@ -8,13 +8,13 @@ import { contact, socials } from '../data/content'
 import { useActiveSection } from '../lib/useActiveSection'
 
 const links = [
-  { id: 'works', label: '片目', en: 'FILMS', index: '01' },
+  { id: 'works', label: '项目', en: 'PROJECTS', index: '01' },
   { id: 'pipeline', label: '生产线', en: 'PIPELINE', index: '02' },
-  { id: 'systems', label: '系统', en: 'SYSTEMS', index: '03' },
-  { id: 'about', label: '关于', en: 'ABOUT', index: '04' },
+  { id: 'about', label: '关于', en: 'ABOUT', index: '03' },
 ]
 
 const sectionIds = links.map((link) => link.id)
+const base = import.meta.env.BASE_URL
 
 export function Nav({ ready }: { ready: boolean }) {
   const [scrolled, setScrolled] = useState(false)
@@ -100,6 +100,20 @@ export function Nav({ ready }: { ready: boolean }) {
                 </span>
               </button>
             ))}
+            <a
+              href={`${base}room/`}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative flex items-baseline gap-2"
+              data-cursor-label="走进"
+            >
+              <span className="font-mono text-[9px] text-amber/55">04</span>
+              <span className="relative flex items-center gap-1 text-[13px] tracking-[0.06em] text-ink/65 transition-colors duration-300 group-hover:text-ink">
+                房间
+                <ArrowUpRight size={11} strokeWidth={1.4} className="text-amber/70 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-amber transition-all duration-500 ease-soft group-hover:w-full" />
+              </span>
+            </a>
           </nav>
 
           <div className="flex items-center gap-5">
@@ -172,6 +186,22 @@ export function Nav({ ready }: { ready: boolean }) {
                     <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/40">{link.en}</span>
                   </motion.button>
                 ))}
+                <motion.a
+                  href={`${base}room/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline justify-between border-t border-ink/12 py-4 text-left"
+                  initial={{ y: 24, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.39, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <span className="display text-[13vw] leading-none text-ink">房间</span>
+                  <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink/40">
+                    3D ROOM
+                    <ArrowUpRight size={12} strokeWidth={1.4} className="text-amber/70" />
+                  </span>
+                </motion.a>
                 <div className="border-t border-ink/12" />
               </div>
             </div>

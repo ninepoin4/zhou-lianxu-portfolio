@@ -6,8 +6,8 @@ const base = import.meta.env.BASE_URL
 
 const principles = [
   { index: '01', title: '可复用', text: '一个模板，能跑一百条；换 SKU 不换方法。' },
-  { index: '02', title: '可交接', text: '同事打开就能用，不用先学会模型。' },
-  { index: '03', title: '可验证', text: '每条片子有出处，每个参数都能回滚。' },
+  { index: '02', title: '可交付', text: '从 brief 到成片，字幕、调色、落版都能交接。' },
+  { index: '03', title: '可部署', text: '本地工作台、FastAPI 出片台，换机器解压即用。' },
 ]
 
 const marqueeWords = ['SCRIPT', 'GENERATE', 'VOICE', 'SUBTITLE', 'COMPOSE', 'DELIVER']
@@ -73,9 +73,11 @@ export function Statement() {
                   <span className="h-1 w-1 rounded-full bg-amber" />
                   <span>Wan 3.0</span>
                   <span className="text-ink/20">/</span>
-                  <span>ComfyUI</span>
-                  <span className="text-ink/20">/</span>
                   <span>HyperFrames</span>
+                  <span className="text-ink/20">/</span>
+                  <span>FastAPI</span>
+                  <span className="text-ink/20">/</span>
+                  <span>Next.js</span>
                   <span className="text-ink/20">/</span>
                   <span>豆包 TTS</span>
                   <span className="text-ink/20">/</span>

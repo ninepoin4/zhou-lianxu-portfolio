@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion, useScroll, useSpring } from 'motion/react'
-import { ArrowUpRight, Terminal } from 'lucide-react'
+import { ArrowUp, Terminal } from 'lucide-react'
 import { pipeline, terminalLines } from '../data/content'
 import { MaskLines, Reveal } from './Reveal'
 import { scrollToId } from '../lib/scroll'
@@ -84,17 +84,17 @@ export function Pipeline() {
               delay={0.05}
               stagger={0.09}
               lines={[
-                <span key="1">从一条提示词，</span>,
+                <span key="1">从一句 brief，</span>,
                 <span key="2">
-                  到 <span className="text-amber-soft">300</span> 条
+                  到 <span className="text-amber-soft">20+</span> 个
                 </span>,
-                <span key="3">能交付的成片。</span>,
+                <span key="3">能交付的项目。</span>,
               ]}
             />
             <Reveal delay={0.15}>
               <p className="mt-6 max-w-[46ch] text-[13px] leading-[1.95] text-ink/60 sm:text-[13.5px]">
                 这不是一个灵感合集，是一条被跑过很多次的产线：剧本有模板，生成有队列，
-                配音有音色库，字幕有对齐，最后按项目分目录交付。今天跑普陀，明天跑戴拉。
+                配音有音色库，字幕有对齐，最后按项目分目录交付。五个项目，共用同一套方法。
               </p>
             </Reveal>
 
@@ -104,7 +104,7 @@ export function Pipeline() {
                   <div className="flex items-center justify-between border-b border-cream/10 px-4 py-2.5">
                     <div className="flex items-center gap-2">
                       <Terminal size={11} strokeWidth={1.4} className="text-amber" />
-                      <span className="font-mono text-[9px] tracking-[0.14em] text-cream/45">build.py — zsh</span>
+                      <span className="font-mono text-[9px] tracking-[0.14em] text-cream/45">dara-studio — zsh</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-cream/15" />
@@ -112,7 +112,7 @@ export function Pipeline() {
                       <span className="h-1.5 w-1.5 rounded-full bg-amber/70" />
                     </div>
                   </div>
-                  <div className="px-4 py-4 font-mono text-[10px] leading-[1.9] sm:text-[10.5px]">
+                  <div className="px-4 py-4 font-mono text-[10.5px] leading-[1.9] sm:text-[11.5px]">
                     <p className="text-amber-soft">
                       {typed}
                       {!cmdDone && <span className="ml-0.5 inline-block h-3 w-[6px] animate-pulse bg-amber align-middle" />}
@@ -122,7 +122,7 @@ export function Pipeline() {
                         key={line.text}
                         className={
                           line.kind === 'out'
-                            ? 'mt-2 border-t border-cream/10 pt-2 text-cream'
+                            ? 'mt-2 border-t border-cream/10 pt-2 text-cream/80'
                             : 'text-cream/55'
                         }
                         initial={reduced ? undefined : { opacity: 0, x: -6 }}
@@ -142,8 +142,8 @@ export function Pipeline() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between font-mono text-[8px] uppercase tracking-[0.18em] text-ink/40">
-                  <span>9:16 · 720×1280 · BATCH QUEUE</span>
-                  <span>REAL LOG · 2026-10</span>
+                  <span>9:16 / 16:9 · BATCH QUEUE</span>
+                  <span>REAL LOG · 2026</span>
                 </div>
               </div>
             </Reveal>
@@ -166,7 +166,7 @@ export function Pipeline() {
                     }}
                     data-index={index}
                     className={`group relative pl-8 pb-9 transition-opacity duration-700 sm:pl-12 ${
-                      isActive ? 'opacity-100' : 'opacity-45 hover:opacity-80'
+                      isActive ? 'opacity-100' : 'opacity-75 hover:opacity-100'
                     }`}
                   >
                     <span
@@ -190,14 +190,14 @@ export function Pipeline() {
                         </div>
                         <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-ink/35">{step.en}</span>
                       </div>
-                      <p className="mt-3 max-w-[52ch] text-[12.5px] leading-[1.85] text-ink/60 sm:text-[13px]">
+                      <p className="mt-3 max-w-[52ch] text-[12.5px] leading-[1.85] text-ink/65 sm:text-[13px]">
                         {step.desc}
                       </p>
                       <div className="mt-3.5 flex flex-wrap gap-1.5">
                         {step.tools.map((tool) => (
                           <span
                             key={tool}
-                            className="border border-ink/15 px-2 py-[3px] font-mono text-[8px] uppercase tracking-[0.1em] text-ink/45"
+                            className="border border-ink/20 px-2 py-[3px] font-mono text-[8px] uppercase tracking-[0.1em] text-ink/60"
                           >
                             {tool}
                           </span>
@@ -212,12 +212,12 @@ export function Pipeline() {
             <Reveal>
               <button
                 type="button"
-                onClick={() => scrollToId('systems')}
+                onClick={() => scrollToId('works')}
                 className="group mt-2 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.2em] text-ink/50 transition-colors hover:text-ink"
               >
-                下一步：把产线封装成系统
+                回到五个项目
                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-ink/20 transition-colors group-hover:border-amber group-hover:text-amber">
-                  <ArrowUpRight size={13} strokeWidth={1.4} />
+                  <ArrowUp size={13} strokeWidth={1.4} />
                 </span>
               </button>
             </Reveal>

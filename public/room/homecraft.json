@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "周连旭的方块房间",
+  "url": "",
+  "logo": "assets/favicon.svg",
+  "intro": "五个项目，一间能走进去的房间。",
+  "lang": ["zh"],
+  "homecraft": true
+}

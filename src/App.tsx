@@ -6,34 +6,43 @@ import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { Statement } from './components/Statement'
 import { ReelBand } from './components/ReelBand'
-import { Works, filmToItem, type LightboxItem } from './components/Works'
+import { Works, projectToItem, type LightboxItem } from './components/Works'
 import { Numbers } from './components/Numbers'
 import { Pipeline } from './components/Pipeline'
-import { Systems } from './components/Systems'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { Lightbox } from './components/Lightbox'
 import { Cursor } from './components/Cursor'
 import { Grain } from './components/Grain'
 import { ScrollProgress, SectionRail } from './components/SectionRail'
-import { films } from './data/content'
+import { projects } from './data/content'
 import { registerLenis } from './lib/scroll'
 
 const base = import.meta.env.BASE_URL
 
 const reelItem: LightboxItem = {
-  id: 'showreel',
+  index: '00',
   title: '作品集',
   en: 'SHOWREEL 2024—2026',
   client: '周连旭 / ZHOU LIANXU',
+  category: 'SHOWREEL',
+  mediaType: 'video',
   src: `${base}media/clips/showreel.mp4`,
   poster: `${base}media/clips/showreel.jpg`,
   ratio: '16:9',
-  desc: '25 秒，8 个项目。从戴拉的烛光舞会，到普陀的香火、一颗珍珠的旋转、雨夜的便利店。剪这一段的时候，我才发现它们其实在同一条线上。音乐：The Great Sea — Scott Buckley（CC BY 3.0）。',
-  tools: ['ffmpeg', 'HyperFrames', 'Wan 3.0'],
-  role: ['选片', '剪辑', '调色', '混音'],
-  duration: '26s',
+  duration: '25s',
   year: '2026',
+  summary: '25 秒，5 个项目。',
+  details:
+    '25 秒，5 个项目。从影游工坊的结构图、Dara Studio 的工作台、量产矩阵的 10 环节出片、自媒体的 300 万+ 播放，到内容工厂的人味脚本。剪这一段的时候，我才发现它们其实在同一条线上：先把一句话写清楚，再让画面、声音、字幕和落版各就各位。音乐：The Great Sea — Scott Buckley（CC BY 3.0）。',
+  metrics: [
+    { value: '25s', label: '时长' },
+    { value: '05', label: '项目' },
+    { value: '01', label: '条主线' },
+  ],
+  deliverables: ['5 个项目片段', '16:9 / 9:16 混剪', '标题卡 / 落版', 'BGM 混音'],
+  tools: ['ffmpeg', 'PIL', 'HyperFrames'],
+  role: ['选片', '剪辑', '调色', '混音'],
 }
 
 export default function App() {
@@ -41,7 +50,7 @@ export default function App() {
   const [ready, setReady] = useState(false)
   const [lightbox, setLightbox] = useState<{ items: LightboxItem[]; startIndex: number; key: number } | null>(null)
 
-  const filmItems = useMemo(() => films.map(filmToItem), [])
+  const projectItems = useMemo(() => projects.map(projectToItem), [])
 
   useEffect(() => {
     if (reduced) setReady(true)
@@ -76,12 +85,12 @@ export default function App() {
 
   const finishIntro = useCallback(() => setReady(true), [])
 
-  const openFilm = useCallback(
-    (index: number) => {
-      if (index < 0) return
-      setLightbox({ items: filmItems, startIndex: index, key: Date.now() })
+  const openProject = useCallback(
+    (item: LightboxItem) => {
+      const startIndex = projectItems.findIndex((project) => project.index === item.index)
+      setLightbox({ items: projectItems, startIndex: Math.max(0, startIndex), key: Date.now() })
     },
-    [filmItems],
+    [projectItems],
   )
 
   const openReel = useCallback(() => {
@@ -109,10 +118,9 @@ export default function App() {
         <Hero ready={ready} onPlayReel={openReel} />
         <Statement />
         <ReelBand onPlayReel={openReel} />
-        <Works onOpen={openFilm} />
+        <Works onOpen={openProject} />
         <Numbers />
         <Pipeline />
-        <Systems />
         <About />
         <Contact />
       </main>
